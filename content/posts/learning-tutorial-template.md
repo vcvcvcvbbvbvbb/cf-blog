@@ -1,6 +1,7 @@
 ---
 title: "【教程】如何使用 React + Tailwind 构建响应式侧边栏"
 date: "2024-05-16"
+draft: false
 description: "一份详细的进阶指南，涵盖从布局设计到移动端适配的完整实现过程。"
 tags: ["React", "Tailwind", "教程", "前端"]
 ---

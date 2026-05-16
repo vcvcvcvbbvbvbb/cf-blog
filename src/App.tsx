@@ -7,6 +7,9 @@ import Markdown from 'react-markdown';
 import { ChevronLeft, Share2, MessageCircle, Sun, Moon, Menu as MenuIcon, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
+// @ts-ignore - 预构建脚本生成的文件，可能在首次运行前不存在
+import postsData from './posts-data.json';
+import { ABOUT_PAGE_CONFIG, AUTHOR_NAME, SITE_TITLE, THEME_COLOR, SITE_BG_OPACITY } from './user-config';
 
 export default function App() {
   const [posts, setPosts] = useState<PostMetadata[]>([]);
@@ -29,6 +32,26 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
+
+  // 提示信息处理
+  const showNotification = (message: string) => {
+    setNotification(message);
+    setTimeout(() => setNotification(null), 3000);
+  };
+
+  const handleShare = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      showNotification("链接已复制到剪贴板！");
+    }).catch(() => {
+      showNotification("分享失败，请直接复制地址栏链接");
+    });
+  };
+
+  const handleMessage = () => {
+    showNotification("评论功能正在开发中...");
+  };
 
   // 移动端/响应式侧边栏处理：屏幕较小时默认关闭，较大时默认开启
   useEffect(() => {
@@ -44,16 +67,16 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // ... rest of state
-  const [summary, setSummary] = useState<string | null>(null);
-  const [summarizing, setSummarizing] = useState(false);
-
   useEffect(() => {
     fetchPosts();
   }, []);
 
   // 监听深色模式变化并应用到 html 根元素
   useEffect(() => {
+    document.title = SITE_TITLE;
+    // 设置主题色变量
+    document.documentElement.style.setProperty('--theme-primary', THEME_COLOR);
+    
     if (isDark) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -74,11 +97,13 @@ export default function App() {
   const fetchPosts = async () => {
     try {
       const resp = await fetch('/api/posts');
+      if (!resp.ok) throw new Error('API not available');
       const data = await resp.json();
       setPosts(data);
       setLoading(false);
     } catch (err) {
-      console.error('Error fetching posts:', err);
+      console.log('Using static posts data fallback');
+      setPosts(postsData.map((p: any) => p.metadata) as PostMetadata[]);
       setLoading(false);
     }
   };
@@ -86,35 +111,21 @@ export default function App() {
   // 处理文章点击事件：获取详情并切换视图
   const handlePostClick = async (slug: string) => {
     setLoading(true);
-    setSummary(null);
     try {
       const resp = await fetch(`/api/posts/${slug}`);
+      if (!resp.ok) throw new Error('API not available');
       const data = await resp.json();
       setSelectedPost(data);
       window.scrollTo(0, 0); // 滚动到顶部
     } catch (err) {
-      console.error('Error fetching post detail:', err);
+      console.log('Using static post detail fallback');
+      const staticPost = (postsData as unknown as PostDetail[]).find(p => p.slug === slug);
+      if (staticPost) {
+        setSelectedPost(staticPost);
+        window.scrollTo(0, 0);
+      }
     } finally {
       setLoading(false);
-    }
-  };
-
-  // 调用 AI 总结接口获取文章摘要
-  const handleSummarize = async () => {
-    if (!selectedPost) return;
-    setSummarizing(true);
-    try {
-      const resp = await fetch('/api/ai/summarize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: selectedPost.content }),
-      });
-      const data = await resp.json();
-      setSummary(data.summary);
-    } catch (err) {
-      console.error('Summarization failed:', err);
-    } finally {
-      setSummarizing(false);
     }
   };
 
@@ -124,8 +135,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900/30">
-      {/* Mobile Sidebar Overlay */}
+    <div className="min-h-screen font-sans selection:bg-primary/20 dark:selection:bg-primary/30">
+      {/* 移动端侧边栏遮罩层 */}
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -142,30 +153,18 @@ export default function App() {
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className={cn(
-          "fixed top-6 left-8 z-50 p-3 rounded-2xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-gray-200 dark:border-zinc-800 shadow-lg hover:shadow-xl transition-all text-gray-600 dark:text-zinc-400 lg:flex items-center space-x-2",
+          "fixed top-6 right-24 lg:left-8 lg:right-auto z-50 p-3 rounded-2xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-gray-200 dark:border-zinc-800 shadow-lg hover:shadow-xl transition-all text-gray-600 dark:text-zinc-400 lg:flex items-center space-x-2",
           isSidebarOpen ? "lg:opacity-0 pointer-events-none" : "lg:opacity-100"
         )}
       >
         <MenuIcon size={20} />
       </button>
 
-      {/* 浮动主题切换按钮 */}
-      <button
-        onClick={() => setIsDark(!isDark)}
-        className="fixed top-6 right-8 z-50 p-3 rounded-2xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-gray-200 dark:border-zinc-800 shadow-lg hover:shadow-xl hover:scale-110 transition-all text-gray-600 dark:text-zinc-400 group"
-        title={isDark ? "切换到浅色模式" : "切换到深色模式"}
-      >
-        {isDark ? (
-          <Sun size={20} className="group-hover:text-yellow-500 transition-colors" />
-        ) : (
-          <Moon size={20} className="group-hover:text-indigo-500 transition-colors" />
-        )}
-      </button>
 
       <div 
         className="transition-colors duration-500 min-h-screen relative"
         style={{
-          backgroundImage: bgImage ? `linear-gradient(rgba(255, 255, 255, ${isDark ? '0.9' : '0.8'}), rgba(255, 255, 255, ${isDark ? '0.9' : '0.8'})), url(${bgImage})` : 'none',
+          backgroundImage: bgImage ? `linear-gradient(rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY}), rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY})), url(${bgImage})` : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
@@ -203,10 +202,10 @@ export default function App() {
               >
                 <button 
                   onClick={() => setSelectedPost(null)}
-                  className="flex items-center text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors mb-10 group"
+                  className="flex items-center text-sm font-bold text-gray-500 hover:text-primary transition-colors mb-10 group"
                 >
                   <ChevronLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-                  返回博客列表
+                  返回文章列表
                 </button>
 
                 {selectedPost.metadata.image && (
@@ -228,7 +227,7 @@ export default function App() {
                           setActiveTab('tags');
                           setSelectedTag(tag);
                         }}
-                        className="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-indigo-100 transition-colors"
+                        className="px-3 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded-full text-xs font-bold uppercase tracking-widest hover:bg-primary/20 transition-colors"
                       >
                         {tag}
                       </button>
@@ -239,42 +238,20 @@ export default function App() {
                   </h1>
                   <div className="mt-8 flex items-center justify-between pb-8 border-b border-gray-100 dark:border-zinc-900">
                     <div className="flex items-center space-x-4">
-                      <div className="w-10 h-10 rounded-full bg-linear-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
-                        JD
+                      <div className="w-10 h-10 rounded-full bg-linear-to-r from-primary to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                        {AUTHOR_NAME}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-gray-900 dark:text-zinc-100">Jane Doe</p>
+                        <p className="text-sm font-bold text-gray-900 dark:text-zinc-100">{AUTHOR_NAME}</p>
                         <p className="text-xs text-gray-500">{selectedPost.metadata.date}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-4 text-gray-400">
-                      <button 
-                        onClick={handleSummarize}
-                        disabled={summarizing}
-                        className="flex items-center space-x-2 text-xs font-bold bg-indigo-50 dark:bg-zinc-900 text-indigo-600 dark:text-indigo-400 px-3 py-2 rounded-xl hover:bg-indigo-100 transition-all border border-indigo-100 dark:border-indigo-900/50"
-                      >
-                        {summarizing ? '正在生成总结...' : 'AI 总结'}
-                      </button>
-                      <button className="hover:text-indigo-600 transition-colors"><Share2 size={20} /></button>
-                      <button className="hover:text-indigo-600 transition-colors"><MessageCircle size={20} /></button>
+                      <button onClick={handleShare} className="hover:text-primary transition-colors"><Share2 size={20} /></button>
+                      <button onClick={handleMessage} className="hover:text-primary transition-colors"><MessageCircle size={20} /></button>
                     </div>
                   </div>
                 </header>
-
-                <AnimatePresence>
-                  {summary && (
-                    <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="mb-10 p-6 bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl"
-                    >
-                      <h3 className="text-xs font-black uppercase tracking-widest text-indigo-500 mb-3">AI 文章总结</h3>
-                      <div className="text-sm text-gray-700 dark:text-zinc-300 leading-relaxed space-y-2">
-                        <Markdown>{summary}</Markdown>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
 
                 <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 leading-relaxed">
                   <div className="markdown-body">
@@ -289,80 +266,158 @@ export default function App() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <div className="flex flex-col mb-16">
-                  <h1 className="text-6xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tighter">
-                    {activeTab === 'home' ? '探索故事' 
-                     : activeTab === 'tags' ? (selectedTag ? `# ${selectedTag}` : '浏览标签')
-                     : activeTab === 'archives' ? '归档'
-                     : activeTab === 'about' ? '关于我'
-                     : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-                  </h1>
-                  <p className="text-xl text-gray-500 dark:text-zinc-500 font-medium">
-                    {activeTab === 'home' 
-                      ? '分享关于设计、技术与创意过程的思考。' 
-                      : activeTab === 'tags' ? (selectedTag ? `标签为 "${selectedTag}" 的文章` : '浏览所有话题。')
-                      : activeTab === 'archives' ? '回顾过往的文章动态。'
-                      : activeTab === 'about' ? '你好，很高兴见到你！'
-                      : `正在探索 ${activeTab}。`}
-                  </p>
-                  {activeTab === 'tags' && selectedTag && (
-                    <button 
-                      onClick={() => setSelectedTag(null)}
-                      className="mt-4 text-sm font-bold text-indigo-600 hover:text-indigo-700 flex items-center"
-                    >
-                      <X size={14} className="mr-1" /> 清除筛选
-                    </button>
-                  )}
-                </div>
-
-                <SearchBar posts={posts} onResultClick={handlePostClick} />
-
-                {loading ? (
-                  <div className="flex justify-center py-20">
-                    <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
+                {activeTab === 'about' ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="max-w-3xl mx-auto"
+                  >
+                    <div className="relative h-64 md:h-96 rounded-3xl overflow-hidden shadow-2xl mb-10">
+                      <img 
+                        src={ABOUT_PAGE_CONFIG.image} 
+                        alt="About Me Banner" 
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-10">
+                        <div>
+                          <h2 className="text-4xl font-black text-white">{ABOUT_PAGE_CONFIG.name}</h2>
+                          <p className="text-white/80 font-medium">{ABOUT_PAGE_CONFIG.title}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100 dark:border-zinc-800">
+                      <div className="prose prose-lg dark:prose-invert max-w-none whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">
+                        {ABOUT_PAGE_CONFIG.description}
+                      </div>
+                    </div>
+                  </motion.div>
                 ) : (
                   <>
-                    {activeTab === 'tags' && !selectedTag ? (
-                      <div className="flex flex-wrap gap-4 py-10">
-                        {Array.from(new Set(posts.flatMap(p => p.tags || []).map(t => t.toLowerCase()))).map(lowerTag => {
-                          const originalTag = posts.flatMap(p => p.tags || []).find(t => t.toLowerCase() === lowerTag);
-                          const count = posts.filter(p => p.tags?.some(t => t.toLowerCase() === lowerTag)).length;
-                          return (
-                            <button
-                              key={lowerTag}
-                              onClick={() => setSelectedTag(originalTag || lowerTag)}
-                              className="px-6 py-3 bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition-all flex items-center"
-                            >
-                              <span className="font-bold text-gray-900 dark:text-zinc-100 mr-2">{originalTag || lowerTag}</span>
-                              <span className="text-xs text-gray-400 bg-gray-50 dark:bg-zinc-800 px-2 py-0.5 rounded-full">{count}</span>
-                            </button>
-                          );
-                        })}
+                    <div className="flex flex-col mb-16">
+                      <h1 className="text-6xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tighter">
+                        {activeTab === 'home' ? '探索故事' 
+                         : activeTab === 'tags' ? (selectedTag ? `# ${selectedTag}` : '浏览标签')
+                         : activeTab === 'archives' ? '归档'
+                         : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+                      </h1>
+                      <p className="text-xl text-gray-500 dark:text-zinc-500 font-medium">
+                        {activeTab === 'home' 
+                          ? '分享关于设计、技术与创意过程的思考。' 
+                          : activeTab === 'tags' ? (selectedTag ? `标签为 "${selectedTag}" 的文章` : '浏览所有话题。')
+                          : activeTab === 'archives' ? '回顾过往的文章动态。'
+                          : `正在探索 ${activeTab}。`}
+                      </p>
+                      {activeTab === 'tags' && selectedTag && (
+                        <button 
+                          onClick={() => setSelectedTag(null)}
+                          className="mt-4 text-sm font-bold text-primary hover:opacity-80 flex items-center"
+                        >
+                          <X size={14} className="mr-1" /> 清除筛选
+                        </button>
+                      )}
+                    </div>
+
+                    <SearchBar posts={postsData as unknown as PostDetail[]} onResultClick={handlePostClick} />
+
+                    {loading ? (
+                      <div className="flex justify-center py-20">
+                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                        {posts.filter(post => {
-                          if (activeTab === 'home') return true;
-                          if (activeTab === 'tags' && selectedTag) {
-                            return post.tags?.some(t => t.toLowerCase() === selectedTag.toLowerCase());
-                          }
-                          // Add more tab logic if needed
-                          return true;
-                        }).length > 0 ? posts.filter(post => {
-                          if (activeTab === 'home') return true;
-                          if (activeTab === 'tags' && selectedTag) {
-                            return post.tags?.some(t => t.toLowerCase() === selectedTag.toLowerCase());
-                          }
-                          return true;
-                        }).map(post => (
-                          <PostCard key={post.slug} post={post} onClick={handlePostClick} />
-                        )) : (
-                          <div className="col-span-full py-20 text-center">
-                            <p className="text-gray-500 text-lg">该分类下暂无文章。</p>
+                      <>
+                        {activeTab === 'archives' ? (
+                          <div className="space-y-12 max-w-3xl mx-auto py-10">
+                            {Object.entries(
+                              posts.reduce((acc, post) => {
+                                const date = new Date(post.date);
+                                const year = date.getFullYear();
+                                const month = date.getMonth() + 1; // 1-12
+                                if (!acc[year]) acc[year] = {};
+                                if (!acc[year][month]) acc[year][month] = [];
+                                acc[year][month].push(post);
+                                return acc;
+                              }, {} as Record<number, Record<number, PostMetadata[]>>)
+                            )
+                            .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
+                            .map(([year, months]) => (
+                               <div key={year} className="relative pl-8 border-l-2 border-gray-200 dark:border-zinc-800 space-y-10">
+                                <div className="absolute -left-[5px] top-0 w-2 h-2 bg-primary rounded-full border border-white dark:border-zinc-950" />
+                                <h3 className="text-4xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">{year}</h3>
+                                
+                                <div className="space-y-12">
+                                  {Object.entries(months as Record<number, PostMetadata[]>)
+                                    .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))
+                                    .map(([month, monthPosts]) => (
+                                      <div key={month} className="space-y-4">
+                                        <div className="flex items-center space-x-2">
+                                          <span className="text-sm font-black text-primary px-2 py-0.5 bg-primary/5 rounded-md uppercase tracking-widest">
+                                            {Number(month)}月
+                                          </span>
+                                          <div className="h-px flex-1 bg-linear-to-r from-gray-200/50 to-transparent dark:from-zinc-800/50" />
+                                        </div>
+                                        <div className="space-y-4 pl-4">
+                                          {monthPosts.map((post) => (
+                                            <div 
+                                              key={post.slug} 
+                                              onClick={() => handlePostClick(post.slug)}
+                                              className="group cursor-pointer flex items-center space-x-4"
+                                            >
+                                              <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-600 uppercase tracking-tighter tabular-nums">
+                                                {new Date(post.date).getDate().toString().padStart(2, '0')}
+                                              </span>
+                                              <h4 className="text-lg font-bold text-gray-700 dark:text-zinc-300 group-hover:text-primary transition-colors line-clamp-1">
+                                                {post.title}
+                                              </h4>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : activeTab === 'tags' && !selectedTag ? (
+                          <div className="flex flex-wrap gap-4 py-10">
+                            {Array.from(new Set(posts.flatMap(p => p.tags || []).map(t => t.toLowerCase()))).map(lowerTag => {
+                              const originalTag = posts.flatMap(p => p.tags || []).find(t => t.toLowerCase() === lowerTag);
+                              const count = posts.filter(p => p.tags?.some(t => t.toLowerCase() === lowerTag)).length;
+                              return (
+                                <button
+                                  key={lowerTag}
+                                  onClick={() => setSelectedTag(originalTag || lowerTag)}
+                                  className="px-6 py-3 bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-md hover:border-primary transition-all flex items-center"
+                                >
+                                  <span className="font-bold text-gray-900 dark:text-zinc-100 mr-2">{originalTag || lowerTag}</span>
+                                  <span className="text-xs text-gray-400 bg-gray-50 dark:bg-zinc-800 px-2 py-0.5 rounded-full">{count}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                            {posts.filter(post => {
+                              if (activeTab === 'home') return true;
+                              if (activeTab === 'tags' && selectedTag) {
+                                return post.tags?.some(t => t.toLowerCase() === selectedTag.toLowerCase());
+                              }
+                              return true;
+                            }).length > 0 ? posts.filter(post => {
+                              if (activeTab === 'home') return true;
+                              if (activeTab === 'tags' && selectedTag) {
+                                return post.tags?.some(t => t.toLowerCase() === selectedTag.toLowerCase());
+                              }
+                              return true;
+                            }).map(post => (
+                              <PostCard key={post.slug} post={post} onClick={handlePostClick} />
+                            )) : (
+                              <div className="col-span-full py-20 text-center">
+                                <p className="text-gray-500 text-lg">该分类下暂无文章。</p>
+                              </div>
+                            )}
                           </div>
                         )}
-                      </div>
+                      </>
                     )}
                   </>
                 )}
@@ -371,6 +426,20 @@ export default function App() {
           </AnimatePresence>
         </main>
       </div>
+
+      {/* 提示通知 UI */}
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 20, x: '-50%' }}
+            className="fixed bottom-10 left-1/2 z-[100] bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center space-x-2 border border-white/10 dark:border-black/5"
+          >
+            <span className="text-sm">{notification}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

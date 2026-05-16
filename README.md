@@ -1,94 +1,96 @@
-# AI Minimalist Blog
+# 🖋️ 我的个人博客模板 (Minimalist Static Blog)
 
-本项目是一个基于 **AI 驱动的极简个人博客系统**。它结合了传统的 Markdown 文档管理和现代 AI 能力（AI 总结、语义搜索），旨在为开发者提供一个既纯粹又智能的写作与阅读平台。
+这是一个为**纯粹写作**而生的个人博客模板。基于 **Vite + React + Tailwind CSS** 构建，无需数据库，通过 Markdown 驱动，实现极致的加载速度与优雅的阅读体验。
 
 ---
 
-## 🚀 部署指南 (复刻必读)
+## 🚀 部署方式 (根据您的程度选择)
 
-### 1. 必备环境
-- **Node.js**: 18.0.0 或更高版本。
-- **Package Manager**: npm, yarn 或 pnpm。
-- **Gemini API Key (可选)**: 用于启用 AI 总结与智能搜索功能。
+本项目支持多种部署方式，您可以根据自己的技术水平选择最适合的一种：
 
-### 2. 如何申请 Gemini API Key (可选)
-如果需要启用 AI 功能，请按照以下步骤操作：
-1.  访问 [Google AI Studio](https://aistudio.google.com/app/apikey)。
-2.  使用您的 Google 账号登录。
-3.  点击 **"Create API key"** 按钮生成您的专属密钥。
-4.  **备注**：Gemini API 提供免费层级（Free Tier），完全能够满足个人博客的日常使用。
-5.  **重要说明**：**该 API Key 是可选的**。即使不配置，您依然可以正常使用博客的所有核心功能，包括：文章阅读、标签过滤、本地标题搜索等。仅“AI 一键总结”和“语义智能搜索”功能会处于禁用状态。
+### 🧊 模式一：极简部署 (小白/新手推荐)
+**特点**：无需安装任何开发环境，完全在浏览器内通过鼠标操作完成，终身免费。
 
-### 3. 本地部署步骤
-1.  **克隆/下载项目**：获取源代码并进入文件夹。
-2.  **安装依赖**：
-    ```bash
-    npm install
+**1. 准备项目代码**
+*   登录您的 [GitHub](https://github.com/) 账号（没有请注册）。
+*   找到本项目仓库，点击右上角的 **Fork** 按钮。
+*   在弹出页面点击 **Create fork**，这会将代码复制一份到您自己的仓库中。
+
+**2. 在 Cloudflare Pages 部署**
+*   访问 [Cloudflare 控制台](https://dash.cloudflare.com/) 并登录。
+*   在左侧菜单选择 **Workers & Pages** -> **Create application**。
+*   切换到 **Pages** 选项卡，点击 **Connect to Git**。
+*   选择您的 GitHub 账号，并选中刚才 Fork 的项目，点击 **Begin setup**。
+*   在“Build settings”中配置如下：
+    *   **Framework preset**: 选 `Vite`。
+    *   **Build command**: 输入 `npm run build`。
+    *   **Build output directory**: 输入 `dist`。
+*   点击 **Save and Deploy**，等待 1-2 分钟，您的网站就通过公网 URL 访问了！
+
+**3. 如何添加文章与修改信息？**
+*   点击您 GitHub 仓库中的 `src/user-config.ts` 文件，点击右上角的“铅笔”图标进行编辑，修改您的博主名称、头像等，完成后点击 **Commit changes**。
+*   点击 `content/posts/` 目录，点击 **Add file** -> **Create new file**。
+*   文件名以 `.md` 结尾（如 `hello-world.md`），参考其他文件写好标题、日期等信息。
+*   **关键点**：您在 GitHub 上执行的每一次 **Commit changes** 操作，Cloudflare 都会自动感知并帮您更新网站！
+
+---
+
+### 💻 模式二：极客部署 (有电脑基础/本地调试)
+**特点**：在本地进行复杂的排版与预览，通过命令行管理项目。
+
+**1. 环境配置 (Windows 用户推荐 WSL)**
+*   打开终端执行 `wsl --install` 安装 Ubuntu。
+*   在 Ubuntu 中执行 `sudo apt update && sudo apt install nodejs npm` (推荐使用 Node 20+)。
+*   **PS**: 若 WSL 密码丢失，请询问 [DeepSeek](https://chat.deepseek.com/) 寻找“WSL 重置密码方法”。
+
+**2. 本地调试**
+*   使用 **VSCode** 打开项目。
+*   推荐安装 **Markdown All in One** 或 **Markdown Preview Enhanced** 插件以便实时预览。
+*   在项目根目录运行 `npm install` 安装依赖。
+*   运行 `npm run dev` 启动本地预览 (http://localhost:3000)。
+
+**3. 同步到 GitHub**
+*   本地修改完成后，使用 `git add .`、`git commit -m "update"`、`git push` 将改动推送到 GitHub，线上网站会自动刷新。
+
+---
+
+### 🛡️ 模式三：专业部署 (VPS 独立托管)
+**特点**：完全掌控服务器环境，适合希望自行管理域名与 SSL 的用户。
+
+**1. 准备工作**
+*   拥有一个 Linux VPS (如 Ubuntu/Debian)。
+*   安装 Node.js 和 Nginx。
+
+**2. 构建项目**
+*   在本地或 VPS 上执行 `npm run build`。
+*   这会生成一个 `dist` 文件夹，里面包含了所有静态网页文件。
+
+**3. 配置 Nginx**
+*   将 `dist` 目录上传到服务器（如 `/var/www/blog`）。
+*   修改 Nginx 配置文件：
+    ```nginx
+    server {
+        listen 80;
+        server_name yourdomain.com;
+        location / {
+            root /var/www/blog;
+            index index.html;
+            try_files $uri $uri/ /index.html;
+        }
+    }
     ```
-3.  **配置环境变量**： 
-    - 复制 `.env.example` 为 `.env`。
-    - 在 `.env` 中填写您的 `GEMINI_API_KEY=你的密钥`。
-4.  **启动开发环境**：
-    ```bash
-    npm run dev
-    ```
-5.  **访问项目**：打开 [http://localhost:3000](http://localhost:3000)。
-
-### 4. 生产环境部署 (推荐：Cloudflare Pages)
-这是最推荐的部署方式，简单高效且性能优越：
-
-1.  **GitHub 托管**：首先将您的项目代码推送到个人 **GitHub** 仓库。
-2.  **关联 Cloudflare**：
-    - 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)，进入 **Workers & Pages** 页面。
-    - 点击 **Create** -> **Pages** -> **Connect to Git**，选择您的博客仓库。
-3.  **构建配置**：
-    - **Framework preset**: 选择 `Vite`。
-    - **Build command**: `npm run build`
-    - **Build output directory**: `dist`
-4.  **环境变量 (核心步奏)**：
-    - 在 **Environment variables** (构建阶段) 中点击 **Add variable**。
-    - 变量名输入 `GEMINI_API_KEY`，值填入您的 Gemini API 密钥。
-5.  **完成部署**：
-    - 点击 **Save and Deploy**，等待构建完成后，您将获得一个 `*.pages.dev` 的二级域名供全球访问。
-
-### 5. 传统服务器部署 (备选)
-如果您拥有 VPS 服务器：
-1.  **构建**：本地或服务器执行 `npm run build`。
-2.  **运行**：确保已安装 Node.js，执行 `npm run start`。
-3.  **进程守护**：建议使用 PM2 保持后台运行：`pm2 start dist/server.cjs --name ai-blog`。
+*   重启 Nginx (`sudo systemctl restart nginx`)。
 
 ---
 
-## ✍️ 如何发布文章 (极简 3 步)
+## 🎨 快速自定义指引
 
-### 1. 复制模板
-在 `content/posts/` 目录下找到 `template.md` 文件，将其**复制**一份并重命名为 `你的文件名.md`。
-
-### 2. 编辑内容
-打开您新建的文件，修改最上方的标题、日期和标签，然后在下方开始用 Markdown 语法写您的故事。
-
-### 3. 同步到网站
-*   **如果您在本地运行**：保存文件后刷新网页即可看到新文章。
-*   **如果您已部署到线上 (GitHub + Cloudflare)**：
-    只需将代码推送到 GitHub（或者直接在 GitHub 网页版上传您的文章文件到同一目录），网站会自动感应并发布。
-
----
-
-## 🛠 个性化定制
-
-为了让博客更具个性，您可以在部署前后修改以下配置：
-
-| 定制项 | 文件路径 | 说明 |
-| :--- | :--- | :--- |
-| **网站名称与描述** | `metadata.json` | 修改 `name` 和 `description` 字段。 |
-| **博主信息 (头像内容/姓名/简介)** | `src/components/Sidebar.tsx` | 在 `Profile Section` 中修改姓名、职业描述及头像文字。 |
-| **社交链接/推荐链接** | `src/components/Sidebar.tsx` | 修改 `recommendedLinks` 数组中的 URL。 |
-| **文章内容** | `content/posts/` | 增加或删除 `.md` 文件即可更新博客内容。 |
-| **AI 密钥** | `.env` 或环境变量 | 修改 `GEMINI_API_KEY` 以启用 AI 功能。 |
-| **地址栏简介** | `index.html`  | 修改 `title` 以启用地址栏简介功能。 |
-| **默认主题色** | `src/index.css` | 通过修改 Tailwind 的配置或 CSS 变量调整全站色调。 |
+本项目极其强调“配置与内容分离”：
+*   **全局设置**: 修改 `src/user-config.ts`。可以修改 `THEME_COLOR` 一键换色，或者调整 `SITE_BG_OPACITY` 来改变背景图片的透明度。
+*   **文章管理**: 在 `content/posts/` 编写 Markdown。
+*   **本地图片**: 放入 `public/images/`，引用的路径为 `/images/文件名.jpg`。
 
 ---
 
 ## 📄 许可证
-本项目基于 MIT 许可证开源。您可以自由复刻、修改并用于个人或商业用途。
+本项目基于 MIT 许可证开源。您可以自由复刻、修改并使用。

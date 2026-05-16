@@ -25,14 +25,14 @@ export const PostCard: React.FC<PostCardProps> = ({ post, onClick }) => {
         </div>
       )}
       <div className="p-6">
-        <div className="flex items-center space-x-3 mb-3 text-xs font-medium text-indigo-500 dark:text-indigo-400">
+        <div className="flex items-center space-x-3 mb-3 text-xs font-medium text-primary">
           {(post.tags || []).slice(0, 2).map(tag => (
-            <span key={tag} className="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg uppercase tracking-wider">
+            <span key={tag} className="px-2 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded-lg uppercase tracking-wider text-[10px]">
               {tag}
             </span>
           ))}
         </div>
-        <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100 mb-3 group-hover:text-indigo-600 transition-colors">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100 mb-3 group-hover:text-primary transition-colors">
           {post.title}
         </h2>
         <p className="text-gray-500 dark:text-zinc-400 text-sm line-clamp-3 mb-6 transition-colors">
