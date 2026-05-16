@@ -85,10 +85,32 @@
 
 ## 🎨 快速自定义指引
 
-本项目极其强调“配置与内容分离”：
-*   **全局设置**: 修改 `src/user-config.ts`。可以修改 `THEME_COLOR` 一键换色，或者调整 `SITE_BG_OPACITY` 来改变背景图片的透明度。
-*   **文章管理**: 在 `content/posts/` 编写 Markdown。
-*   **本地图片**: 放入 `public/images/`，引用的路径为 `/images/文件名.jpg`。
+本项目极其强调“配置与内容分离”，适合小白快速上手：
+*   **基础设置**: 修改 `src/user-config.ts`。您可以修改博主姓名、头像，或通过 `THEME_COLOR` 一键换色，还可以调整 `SITE_BG_OPACITY` 透明度。
+*   **高级背景**: 
+    *   **初始背景**: 网站自带了一个精致的默认背景图（内置于代码中，无需配置）。
+    *   **手动覆盖**: 您可以在运行网站后，通过侧边栏左下角的“背景图片”输入框实时更换。您的修改会保存在浏览器本地。
+*   **文章管理**: 在 `content/posts/` 使用 Markdown 格式编写。
+*   **素材管理**: 推荐将本地图片放入 `public/images/`，引用的路径为 `/images/文件名.jpg`。
+
+---
+
+## 🛠️ 未来功能扩展建议 (给开发者的进阶指南)
+
+如果您有一定代码基础，并希望为这个博客添加更多功能，以下是一些可行的技术路径：
+
+*   **💬 评论系统 (Comment System)**:
+    *   **建议**: 推荐使用 [Giscus](https://giscus.app/zh-CN) 或 [Waline](https://waline.js.org/)。Giscus 基于 GitHub Discussions，完全免费且契合本项目风格。
+    *   **实现**: 在文章详情页组件底部引入相应的 JS 脚本即可。
+*   **🌍 多语言支持 (i18n)**:
+    *   **建议**: 使用 `react-i18next`。
+    *   **实现**: 为 `user-config.ts` 中的文本提供多语言版本，并添加一个切换语言的按钮。
+*   **🔐 文章加密 (Post Encryption)**:
+    *   **建议**: 使用 `crypto-js` 对 Markdown 内容进行 AES 加密。
+    *   **实现**: 在预处理脚本中检测 `.md` 头部是否含有 `password` 字段，若有则加密内容。前端读取时提示用户输入密码解绑。
+*   **📊 阅读量统计**:
+    *   **建议**: 使用 [LeanCloud](https://leancloud.cn/) 或 [Umami](https://umami.is/)。
+    *   *实现*: 在页面加载时通过 API 调用计数值。
 
 ---
 

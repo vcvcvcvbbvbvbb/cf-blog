@@ -23,11 +23,14 @@ export default function App() {
     }
     return false;
   });
+  // 默认背景图 (小白不容易找到并修改这里)
+  const DEFAULT_BG = "https://w.wallhaven.cc/full/3k/wallhaven-3k63ey.jpg";
+
   const [bgImage, setBgImage] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('bg-image') || '';
+      return localStorage.getItem('bg-image') || "";
     }
-    return '';
+    return "";
   });
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -164,11 +167,11 @@ export default function App() {
       <div 
         className="transition-colors duration-500 min-h-screen relative"
         style={{
-          backgroundImage: bgImage ? `linear-gradient(rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY}), rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY})), url(${bgImage})` : 'none',
+          backgroundImage: (bgImage || DEFAULT_BG) ? `linear-gradient(rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY}), rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY})), url("${bgImage || DEFAULT_BG}")` : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
-          backgroundColor: !bgImage ? (isDark ? '#121212' : '#e5e5e5') : 'transparent'
+          backgroundColor: isDark ? '#121212' : '#f4f4f5'
         }}
       >
         <Sidebar 

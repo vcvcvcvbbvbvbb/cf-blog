@@ -1,7 +1,7 @@
 ---
 title: Understanding Hugo Stack Theme
 date: 2024-05-17
-draft: true
+draft: false
 description: Why the Stack theme is one of the best for personal blogging.
 image: https://images.unsplash.com/photo-1484417894907-623942c8ee29?q=80&w=2064&auto=format&fit=crop
 tags: ["Design", "Hugo"]

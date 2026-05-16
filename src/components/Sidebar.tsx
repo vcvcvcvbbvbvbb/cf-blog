@@ -89,13 +89,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, se
           <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-500 flex items-center">
             <ImageIcon size={10} className="mr-1" /> 背景图片
           </p>
-          <input 
-            type="text" 
-            placeholder="图片 URL..."
-            value={bgImage}
-            onChange={(e) => setBgImage(e.target.value)}
-            className="w-full text-[10px] bg-white/40 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-800 rounded-lg p-2 focus:ring-1 focus:ring-primary outline-hidden transition-all text-zinc-700 dark:text-zinc-400"
-          />
+          <div className="relative group">
+            <input 
+              type="text" 
+              placeholder="图片链接 (URL)..."
+              value={bgImage}
+              onChange={(e) => setBgImage(e.target.value)}
+              className="w-full text-[10px] bg-white/40 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-800 rounded-lg p-2 pr-8 focus:ring-1 focus:ring-primary outline-hidden transition-all text-zinc-700 dark:text-zinc-400"
+            />
+            {bgImage && (
+              <button 
+                onClick={() => setBgImage('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors"
+                title="清空背景"
+              >
+                <X size={12} />
+              </button>
+            )}
+          </div>
         </div>
 
         <button 
