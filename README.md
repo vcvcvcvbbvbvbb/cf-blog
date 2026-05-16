@@ -1,6 +1,15 @@
-# 🖋️ 我的个人博客模板 (Minimalist Static Blog)
+# ✨ 绝绝子！零成本搭建你的极简赛博空间 | 0 门槛 1 分钟闪电部署
 
-这是一个为**纯粹写作**而生的个人博客模板。基于 **Vite + React + Tailwind CSS** 构建，无需数据库，通过 Markdown 驱动，实现极致的加载速度与优雅的阅读体验。
+> 这是一个为**纯粹写作**而生的个人博客模板。基于 **Vite + React + Tailwind CSS** 构建，无需数据库，通过 Markdown 驱动，实现极致的加载速度与优雅的阅读体验。
+
+---
+
+## 🔥 为什么选择本项目？
+*   **💸 零元购**: 配合 Cloudflare Pages，终身免费，无需服务器费用。
+*   **⚡ 闪电快**: 静态导出，全球 CDN 分发，秒开网页。
+*   **🖋️ 写作爽**: 只需写 Markdown 丢进文件夹，网站自动更新。
+*   **🎨 随心改**: 内置主题换色、背景透明度调节、侧边栏实时背景切换。
+*   **🏷️ 多标签**: 每篇文章支持添加多个标签，分类检索更方便。
 
 ---
 
@@ -16,7 +25,7 @@
 *   找到本项目仓库，点击右上角的 **Fork** 按钮。
 *   在弹出页面点击 **Create fork**，这会将代码复制一份到您自己的仓库中。
 
-**2. 在 Cloudflare Pages 部署**
+**2. 在 Cloudflare Pages 部署 (魔法开始的地方)**
 *   访问 [Cloudflare 控制台](https://dash.cloudflare.com/) 并登录。
 *   在左侧菜单选择 **Workers & Pages** -> **Create application**。
 *   切换到 **Pages** 选项卡，点击 **Connect to Git**。
@@ -25,13 +34,13 @@
     *   **Framework preset**: 选 `Vite`。
     *   **Build command**: 输入 `npm run build`。
     *   **Build output directory**: 输入 `dist`。
-*   点击 **Save and Deploy**，等待 1-2 分钟，您的网站就通过公网 URL 访问了！
+*   点击 **Save and Deploy**，等待 1-2 分钟，您的网站就正式上线了！
 
 **3. 如何添加文章与修改信息？**
-*   点击您 GitHub 仓库中的 `src/user-config.ts` 文件，点击右上角的“铅笔”图标进行编辑，修改您的博主名称、头像等，完成后点击 **Commit changes**。
-*   点击 `content/posts/` 目录，点击 **Add file** -> **Create new file**。
-*   文件名以 `.md` 结尾（如 `hello-world.md`），参考其他文件写好标题、日期等信息。
-*   **关键点**：您在 GitHub 上执行的每一次 **Commit changes** 操作，Cloudflare 都会自动感知并帮您更新网站！
+*   **修改个人信息**：点击您 GitHub 仓库中的 `src/user-config.ts` 文件，点击右上角的“铅笔”图标进行编辑，修改名称、头像、透明度等。
+*   **添加文章**：点击 `content/posts/` 目录，点击 **Add file** -> **Create new file**。文件名以 `.md` 结尾。
+*   **多标签技巧**：在文章头部的 `tags` 字段中，使用类似 `["标签1", "标签2"]` 的格式即可添加多个标签。
+*   **关键点**：您在 GitHub 上执行的每一次改动，Cloudflare 都会自动帮你同步到线上网站！
 
 ---
 
