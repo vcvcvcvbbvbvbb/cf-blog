@@ -1,0 +1,8 @@
+{
+  "name": "Minimalist Markdown Blog",
+  "description": "A clean, efficient, and professional personal blog built with Markdown, focusing on speed and simplicity.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
