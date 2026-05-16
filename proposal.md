@@ -55,9 +55,17 @@
 ### 1. 必备环境
 - **Node.js**: 18.0.0 或更高版本。
 - **Package Manager**: npm, yarn 或 pnpm。
-- **Gemini API Key**: [获取地址](https://aistudio.google.com/app/apikey)。
+- **Gemini API Key (可选)**: 用于启用 AI 总结与智能搜索功能。
 
-### 2. 本地部署步骤
+### 2. 如何申请 Gemini API Key (可选)
+如果需要启用 AI 功能，请按照以下步骤操作：
+1.  访问 [Google AI Studio](https://aistudio.google.com/app/apikey)。
+2.  使用您的 Google 账号登录。
+3.  点击 **"Create API key"** 按钮生成您的专属密钥。
+4.  **备注**：Gemini API 提供免费层级（Free Tier），完全能够满足个人博客的日常使用。
+5.  **重要说明**：**该 API Key 是可选的**。即使不配置，您依然可以正常使用博客的所有核心功能，包括：文章阅读、标签过滤、本地标题搜索等。仅“AI 一键总结”和“语义智能搜索”功能会处于禁用状态。
+
+### 3. 本地部署步骤
 1.  **克隆/下载项目**：获取源代码并进入文件夹。
 2.  **安装依赖**：
     ```bash
