@@ -198,7 +198,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen font-sans selection:bg-primary/20 dark:selection:bg-primary/30">
+    <div className="min-h-dvh font-sans selection:bg-primary/20 dark:selection:bg-primary/30">
       {/* 移动端侧边栏遮罩层 */}
       <AnimatePresence>
         {isSidebarOpen && (
@@ -256,7 +256,7 @@ export default function App() {
 
 
       <div 
-        className="transition-colors duration-500 min-h-screen relative"
+        className="transition-colors duration-500 min-h-dvh relative"
         style={{
           backgroundImage: (bgImage || DEFAULT_BG) ? `linear-gradient(rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY}), rgba(${isDark ? '18, 18, 18' : '255, 255, 255'}, ${SITE_BG_OPACITY})), url("${bgImage || DEFAULT_BG}")` : 'none',
           backgroundSize: 'cover',

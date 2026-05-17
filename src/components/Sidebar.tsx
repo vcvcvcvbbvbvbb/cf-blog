@@ -21,8 +21,8 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, setActiveTab, bgImage, setBgImage, onShare }) => {
   return (
     <aside className={cn(
-      // 样式说明：fixed 定位，毛玻璃效果 (backdrop-blur)，平滑过度 (transition-all)
-      "fixed top-0 left-0 h-screen w-64 border-r border-gray-300 dark:border-zinc-800 bg-[#d8d8d8]/95 dark:bg-[#181818]/98 backdrop-blur-xl flex flex-col transition-all duration-300 z-50",
+      // 样式说明：fixed 定位，毛玻璃效果 (backdrop-blur)，平滑过度 (transition-transform)
+      "fixed top-0 left-0 h-screen w-64 border-r border-gray-300 dark:border-zinc-800 bg-[#d8d8d8]/95 dark:bg-[#181818]/98 backdrop-blur-xl flex flex-col transition-transform duration-300 z-50",
       isOpen ? "translate-x-0" : "-translate-x-full"
     )}>
       {/* 移动端快速关闭按钮：只在小屏幕显示 */}
