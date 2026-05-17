@@ -3,7 +3,7 @@
  * 侧边栏组件：包含个人头像、主导航菜单、社交链接以及背景图设置。
  */
 import React from 'react';
-import { ExternalLink, Image as ImageIcon, X } from 'lucide-react';
+import { ExternalLink, Image as ImageIcon, X, Share2 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { AUTHOR_NAME, AUTHOR_TITLE, AUTHOR_AVATAR, MENU_ITEMS, RECOMMENDED_LINKS } from '../user-config';
 
@@ -15,9 +15,10 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void; 
   bgImage: string;      // 用户自定义的背景图片链接
   setBgImage: (url: string) => void;
+  onShare: () => void;  // 分享网站的回调函数
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, setActiveTab, bgImage, setBgImage }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, setActiveTab, bgImage, setBgImage, onShare }) => {
   return (
     <aside className={cn(
       // 样式说明：fixed 定位，毛玻璃效果 (backdrop-blur)，平滑过度 (transition-all)
@@ -112,6 +113,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, se
               </button>
             )}
           </div>
+        </div>
+
+        {/* 分享网站按钮 */}
+        <div className="px-4 mt-2">
+          <button
+            onClick={onShare}
+            className="w-full flex items-center justify-center space-x-2 py-3 bg-white/40 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-800 rounded-xl text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 group"
+          >
+            <Share2 size={14} className="group-hover:scale-110 transition-transform" />
+            <span>分享本站</span>
+          </button>
         </div>
       </div>
     </aside>

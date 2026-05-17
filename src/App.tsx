@@ -244,6 +244,7 @@ export default function App() {
           }}
           bgImage={bgImage}
           setBgImage={setBgImage}
+          onShare={handleShare}
         />
 
         <main className={cn(
