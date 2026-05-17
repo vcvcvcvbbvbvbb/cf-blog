@@ -106,7 +106,7 @@ export const SITE_BG_OPACITY = 0.55;
 export const POST_BOTTOM_IMAGES = [
   {
     enabled: true,
-    url: "https://w.wallhaven.cc/full/gl/wallhaven-gllejl.png",
+    url: "https://i.urusai.cc/wx3iV.jpg",
     label: "关注我的公众号" 
   },
 ];

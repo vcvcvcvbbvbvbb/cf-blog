@@ -26,7 +26,9 @@ image: "https://i.urusai.cc/Pws4B.jpg"
 ## 🚀 闪电部署步骤
 
 ### 1. 获取代码 (Fork)
-访问 [仓库地址](https://github.com/alivedou/cf-blog)，点击右上角的 **Fork** 按钮。这会在你自己的账户下创建一个一模一样的副本。
+访问 [仓库主页](https://github.com/alivedou/cf-blog)，点击右上角的 **Fork** 按钮。
+
+**💡 贴心建议**：在 Fork 页面，你可以将 `Repository name` 修改为您喜欢的名字（比如 `myblog`或者其他你喜欢的名字）。这不仅是你的代码库，更是你数字世界的名字。点击 **Create fork**，这一份蓝图就正式存入了你的 GitHub 账号。
 
 ### 2. 极速上线 (Cloudflare Pages)
 1.  登录 [Cloudflare 控制台](https://dash.cloudflare.com/)。

@@ -1,8 +1,18 @@
-# ✨ 极简 AI 协作博客模板 (CyberLog)
+# ✨ 极简 AI 协作博客模板 (CF-blog)
 
 > **小白也能轻松上手的个人博客系统。** 无需学习复杂的后端，只需修改配置文件和 Markdown，即可拥有属于自己的数字花园。
 
 Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
+项目开源地址：[https://github.com/alivedou/cf-blog](https://github.com/alivedou/cf-blog)
+
+---
+
+## 🛠️ 准备阶段 (部署前必看)
+
+为了实现“零成本”发布您的博客，您需要先准备好以下两个**免费**账号：
+
+1.  **[GitHub 账号](https://github.com/join)**：用于管理您的博客代码和文章。
+2.  **[Cloudflare 账号](https://dash.cloudflare.com/sign-up)**：用于将代码发布为真实的网站（Cloudflare Pages）。
 
 ---
 
@@ -29,8 +39,10 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 
 **1. 准备项目代码**
 *   登录您的 [GitHub](https://github.com/) 账号（没有请注册）。
-*   找到本项目仓库，点击右上角的 **Fork** 按钮。
-*   在弹出页面点击 **Create fork**，这会将代码复制一份到您自己的仓库中。
+*   找到本项目仓库：[cf-blog](https://github.com/alivedou/cf-blog)。
+*   点击右上角的 **Fork** 按钮。
+*   **💡 关键一步**：在 `Create a new fork` 页面，你可以修改 **Repository name**（例如改为 `my-blog` 或任何你喜欢的名字）。
+*   点击下方的 **Create fork** 按钮。现在，你已经拥有了一份完全属于你自己的博客代码库！
 
 **2. 在 Cloudflare Pages 部署 (魔法开始的地方)**
 *   访问 [Cloudflare 控制台](https://dash.cloudflare.com/) 并登录。
@@ -156,7 +168,6 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 
 如果您在部署过程中遇到任何困难，或者有更好的创意，欢迎通过以下方式联系我：
 - **Email**: [alivedou@outlook.com](mailto:alivedou@outlook.com)
-- **GitHub**: [adou1235789](https://github.com/adou1235789)
 
 让我们一起构建更美的数字世界！✨
 
