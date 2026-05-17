@@ -46,6 +46,12 @@ export const AUTHOR_AVATAR = "https://i.urusai.cc/wx3iV.jpg";
  * ==========================================
  *           侧边栏菜单配置
  * ==========================================
+ * 
+ * 【如何更换自定义图标？】
+ * 本项目使用 lucide-react 作为图标库。
+ * 1. 请访问 https://lucide.dev/icons/ 寻找你需要图标的名字。
+ * 2. 在本文件的最上方 import 区，将图标的英文名添加进去（首字母大写，如 'Camera'）。
+ * 3. 将下面配置中的 icon 字段替换为你刚导入的名字即可。
  */
 
 // 8. 导航菜单列表
@@ -94,7 +100,7 @@ export const THEME_COLOR = "indigo";
 
 // 11. 网站背景图片透明度（0.0 到 1.0 之间，数值越小，背景图越清晰）
 // 建议：浅色模式 0.7-0.9，深色模式 0.8-0.95
-export const SITE_BG_OPACITY = 0.79;
+export const SITE_BG_OPACITY = 0.85;
 
 
 /**

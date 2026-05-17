@@ -44,7 +44,7 @@ image: "https://i.urusai.cc/Pws4B.jpg"
 ## 🎨 个性化你的花园
 
 ### 修改基本信息
-在 GitHub 网页上直接修改 `src/user-config.ts` 文件。你可以即时更改：
+在 GitHub 网页上直接修改项目根目录下的 `blog.config.ts` 文件。你可以即时更改：
 *   **SITE_TITLE**: 网站在浏览器上的名字。
 *   **AUTHOR_NAME**: 你的大名。
 *   **THEME_COLOR**: 主题颜色（如 orange, indigo, emerald）。

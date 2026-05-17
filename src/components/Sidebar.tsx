@@ -5,7 +5,7 @@
 import React from 'react';
 import { ExternalLink, Image as ImageIcon, X, Share2, Mail } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
-import { AUTHOR_NAME, AUTHOR_TITLE, AUTHOR_AVATAR, MENU_ITEMS, RECOMMENDED_LINKS, AUTHOR_CONTACT } from '../user-config';
+import { AUTHOR_NAME, AUTHOR_TITLE, AUTHOR_AVATAR, MENU_ITEMS, RECOMMENDED_LINKS, AUTHOR_CONTACT } from '@/blog.config';
 
 /** 侧边栏需要的属性定义 */
 interface SidebarProps {

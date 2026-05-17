@@ -3,7 +3,7 @@
  * LeanCloud 统计模块：用于实现无服务器的文章阅读量在线计数。
  */
 import AV from 'leancloud-storage';
-import { LEANCLOUD_CONFIG } from '../user-config';
+import { LEANCLOUD_CONFIG } from '@/blog.config';
 
 let isInitialized = false;
 

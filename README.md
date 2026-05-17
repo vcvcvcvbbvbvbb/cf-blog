@@ -56,7 +56,7 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 *   点击 **Save and Deploy**，等待 1-2 分钟，您的网站就正式上线了！
 
 **3. 如何添加文章与修改信息？**
-*   **修改个人信息**：点击您 GitHub 仓库中的 `src/user-config.ts` 文件，点击右上角的“铅笔”图标进行编辑，修改名称、头像、透明度等。
+*   **修改个人信息**：点击您 GitHub 仓库中的 `blog.config.ts` 文件，点击右上角的“铅笔”图标进行编辑，修改名称、头像、透明度等。
 *   **添加文章**：点击 `content/posts/` 目录，点击 **Add file** -> **Create new file**。文件名以 `.md` 结尾。
 *   **多标签技巧**：在文章头部的 `tags` 字段中，使用类似 `["标签1", "标签2"]` 的格式即可添加多个标签。
 *   **关键点**：您在 GitHub 上执行的每一次改动，Cloudflare 都会自动帮你同步到线上网站！
@@ -122,8 +122,8 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 ## 🎨 快速自定义指引
 
 本项目极其强调“配置与内容分离”，适合小白快速上手：
-*   **基础设置**: 修改 `src/user-config.ts`。您可以修改博主姓名、头像，或通过 `THEME_COLOR` 一键换色，还可以调整 `SITE_BG_OPACITY` 透明度。
-*   **文章附加内容**: 在 `src/user-config.ts` 中可以修改 `POST_BOTTOM_IMAGES` 来添加文章底部的一个或多个二维码（自动排版）。
+*   **基础设置**: 修改 `blog.config.ts`。您可以修改博主姓名、头像，或通过 `THEME_COLOR` 一键换色，还可以调整 `SITE_BG_OPACITY` 透明度。
+*   **文章附加内容**: 在 `blog.config.ts` 中可以修改 `POST_BOTTOM_IMAGES` 来添加文章底部的一个或多个二维码（自动排版）。
 *   **高级背景**: 
     *   **初始背景**: 网站自带了一个精致的默认背景图（内置于代码中，无需配置）。
     *   **手动覆盖**: 您可以在运行网站后，通过侧边栏左下角的“背景图片”输入框实时更换。您的修改会保存在浏览器本地。
@@ -141,7 +141,7 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 3.  **获取凭证**: 
     *   进入“设置” -> “应用凭证”，拷贝 **AppID** 和 **AppKey**。
     *   进入“设置” -> “域名绑定”，拷贝 **REST API 服务器地址**（如果没有，请按照提示绑定或使用其提供的 API 域名）。
-4.  **填写配置**: 修改 `src/user-config.ts` 中的 `LEANCLOUD_CONFIG`：
+4.  **填写配置**: 修改 `blog.config.ts` 中的 `LEANCLOUD_CONFIG`：
     *   `enabled`: 设为 `true`。
     *   `appId`, `appKey`, `serverURL`: 填入刚才获取的信息。
 5.  **魔法开启**: 完成提交（Commit）后，每当有人访问您的文章，阅读量就会实时更新并展示在标题下方！
@@ -157,7 +157,7 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
     *   **实现**: 在文章详情页组件底部引入相应的 JS 脚本即可。
 *   **🌍 多语言支持 (i18n)**:
     *   **建议**: 使用 `react-i18next`。
-    *   **实现**: 为 `user-config.ts` 中的文本提供多语言版本，并添加一个切换语言的按钮。
+    *   **实现**: 为 `blog.config.ts` 中的文本提供多语言版本，并添加一个切换语言的按钮。
 *   **🔐 文章加密 (Post Encryption)**:
     *   **建议**: 使用 `crypto-js` 对 Markdown 内容进行 AES 加密。
     *   **实现**: 在预处理脚本中检测 `.md` 头部是否含有 `password` 字段，若有则加密内容。前端读取时提示用户输入密码解绑。
@@ -189,7 +189,11 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 6.  **手机端点击侧边栏背景输入框时，侧边栏突然收缩消失？**
     *   **已修复**: 手机浏览器在调起虚拟键盘时会暂时改变网页的可视高度，从而触发原来的窗口大小监听机制导致面板被意外关闭。目前已修复了屏幕尺寸监听逻辑，侧边栏仅在屏幕宽度发生实质性改变时（如横竖屏切换）才会自动收缩，大大提升了手机端输入体验！
 7.  **如何自定义首页描述文本和调整侧边栏的“联系我”按钮位置？**
-    *   **已优化**: 现已将首页顶部显示的欢迎描述语抽离到了 `src/user-config.ts` 中的 `HOME_PAGE_DESCRIPTION` 字段，实现自由配置。另外，侧边栏的“联系我”功能也从普通的外部链接列表中移出，配置为 `user-config.ts` 中的 `AUTHOR_CONTACT` 变量，并以美观的按钮形态专门放置在博主头像下方，使得整体视觉和交互逻辑更加直观。
+    *   **已优化**: 现已将首页顶部显示的欢迎描述语抽离到了 `blog.config.ts` 中的 `HOME_PAGE_DESCRIPTION` 字段，实现自由配置。另外，侧边栏的“联系我”功能也从普通的外部链接列表中移出，配置为 `blog.config.ts` 中的 `AUTHOR_CONTACT` 变量，并以美观的按钮形态专门放置在博主头像下方，使得整体视觉和交互逻辑更加直观。
+8.  **切换图片背景后在特定的黑夜/白天模式下文字看不清？**
+    *   **已优化**: 项目引入了现代 Web 设计标准的毛玻璃 (frosted glass) `backdrop-blur` 视觉特效卡片系统。现在，不管将背景图设置得多复杂，系统都会智能地在文章主体、归档列表和页面标题周围渲染一层质感丝滑的半透明玻璃遮罩以承载文字，完美解决了背景图对比度影响阅读体验的核心痛点。
+9.  **不知道该如何修改侧边栏里的社交和个人图标？**
+    *   **已填坑**: 已经在项目根目录的配置中心 `blog.config.ts` 里，针对由于引入 React 组件带来的图标修改门槛过高的问题，专门补充了“一拖到底”的傻瓜式小白操作步骤指引，无需代码经验也能随意换图标。
 
 ## 📄 许可证
 本项目基于 MIT 许可证开源。您可以自由复刻、修改并使用。

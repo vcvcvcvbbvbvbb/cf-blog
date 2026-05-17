@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 // @ts-ignore - 预构建脚本生成的文件，可能在首次运行前不存在
 import postsData from './posts-data.json';
-import { ABOUT_PAGE_CONFIG, AUTHOR_NAME, SITE_TITLE, THEME_COLOR, SITE_BG_OPACITY, POST_BOTTOM_IMAGES, LEANCLOUD_CONFIG, HOME_PAGE_DESCRIPTION } from './user-config';
+import { ABOUT_PAGE_CONFIG, AUTHOR_NAME, SITE_TITLE, THEME_COLOR, SITE_BG_OPACITY, POST_BOTTOM_IMAGES, LEANCLOUD_CONFIG, HOME_PAGE_DESCRIPTION } from '@/blog.config';
 import { trackPageView } from './lib/leancloud';
 
 export default function App() {
@@ -302,97 +302,101 @@ export default function App() {
                 exit={{ opacity: 0, y: -20 }}
                 className="max-w-4xl mx-auto"
               >
-                <button 
-                  onClick={() => {
-                    setSelectedPost(null);
-                    window.history.pushState({}, '', '/');
-                  }}
-                  className="flex items-center text-sm font-bold text-gray-500 hover:text-primary transition-colors mb-10 group"
-                >
-                  <ChevronLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-                  返回文章列表
-                </button>
-
                 {selectedPost.metadata.image && (
                   <img 
                     src={selectedPost.metadata.image} 
                     alt={selectedPost.metadata.title}
-                    className="w-full h-80 object-cover rounded-3xl shadow-2xl mb-12"
+                    className="w-full h-80 object-cover rounded-3xl shadow-2xl mb-8"
                     referrerPolicy="no-referrer"
                   />
                 )}
+                
+                <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl rounded-3xl p-8 md:p-12 shadow-xl border border-gray-200 dark:border-zinc-800 relative">
+                  <button 
+                    onClick={() => {
+                      setSelectedPost(null);
+                      window.history.pushState({}, '', '/');
+                    }}
+                    className="flex items-center text-sm font-bold text-gray-500 hover:text-primary transition-colors mb-10 group"
+                  >
+                    <ChevronLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+                    返回文章列表
+                  </button>
 
-                <header className="mb-12">
-                  <div className="flex items-center space-x-3 mb-6">
-                    {(selectedPost.metadata.tags || []).map(tag => (
-                      <button 
-                        key={tag} 
-                        onClick={() => {
-                          setSelectedPost(null);
-                          setActiveTab('tags');
-                          setSelectedTag(tag);
-                          window.history.pushState({}, '', '/');
-                        }}
-                        className="px-3 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded-full text-xs font-bold uppercase tracking-widest hover:bg-primary/20 transition-colors"
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                  <h1 className="text-5xl font-black text-gray-900 dark:text-gray-100 leading-tight">
-                    {selectedPost.metadata.title}
-                  </h1>
-                  <div className="mt-8 flex items-center justify-between pb-8 border-b border-gray-100 dark:border-zinc-900">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-10 h-10 rounded-full bg-linear-to-r from-primary to-purple-600 flex items-center justify-center text-white font-bold text-xs">
-                        {AUTHOR_NAME}
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-gray-900 dark:text-zinc-100">{AUTHOR_NAME}</p>
-                        <div className="flex items-center space-x-3 mt-0.5">
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">{selectedPost.metadata.date}</p>
-                          {LEANCLOUD_CONFIG.enabled && currentViews > 0 && (
-                            <span className="flex items-center text-[10px] text-gray-400 font-medium">
-                              <Eye size={12} className="mr-1" />
-                              {currentViews} 次阅读
-                            </span>
-                          )}
+                  <header className="mb-12">
+                    <div className="flex items-center space-x-3 mb-6">
+                      {(selectedPost.metadata.tags || []).map(tag => (
+                        <button 
+                          key={tag} 
+                          onClick={() => {
+                            setSelectedPost(null);
+                            setActiveTab('tags');
+                            setSelectedTag(tag);
+                            window.history.pushState({}, '', '/');
+                          }}
+                          className="px-3 py-1 bg-primary/10 dark:bg-primary/20 text-primary rounded-full text-xs font-bold uppercase tracking-widest hover:bg-primary/20 transition-colors"
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-gray-100 leading-tight">
+                      {selectedPost.metadata.title}
+                    </h1>
+                    <div className="mt-8 flex items-center justify-between pb-8 border-b border-gray-100 dark:border-zinc-800">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-r from-primary to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                          {AUTHOR_NAME}
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-gray-900 dark:text-zinc-100">{AUTHOR_NAME}</p>
+                          <div className="flex items-center space-x-3 mt-0.5">
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">{selectedPost.metadata.date}</p>
+                            {LEANCLOUD_CONFIG.enabled && currentViews > 0 && (
+                              <span className="flex items-center text-[10px] text-gray-400 font-medium">
+                                <Eye size={12} className="mr-1" />
+                                {currentViews} 次阅读
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-4 text-gray-400">
-                      <button onClick={handleShare} className="hover:text-primary transition-colors"><Share2 size={20} /></button>
-                      <button onClick={handleMessage} className="hover:text-primary transition-colors"><MessageCircle size={20} /></button>
-                    </div>
-                  </div>
-                </header>
-
-                <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 leading-relaxed mb-16">
-                  <div className="markdown-body">
-                    <Markdown>{selectedPost.content}</Markdown>
-                  </div>
-                </div>
-
-                {/* 文章底部自定义图片列表 (二维码等) - 已支持循环渲染 */}
-                <div className="mt-20 py-12 border-t border-gray-100 dark:border-zinc-900 flex flex-wrap justify-center gap-12">
-                  {POST_BOTTOM_IMAGES.filter(img => img.enabled).map((img, idx) => (
-                    <div key={idx} className="flex flex-col items-center">
-                      <div className="relative group">
-                        <div className="absolute -inset-4 bg-primary/10 rounded-[2rem] blur-2xl group-hover:bg-primary/20 transition-all duration-500" />
-                        <div className="relative p-2 bg-white dark:bg-zinc-800 rounded-2xl shadow-xl border border-gray-100 dark:border-zinc-700">
-                          <img 
-                            src={img.url} 
-                            alt={img.label} 
-                            className="w-32 h-32 md:w-36 md:h-36 object-cover rounded-xl"
-                          />
-                        </div>
+                      <div className="flex items-center space-x-4 text-gray-400">
+                        <button onClick={handleShare} className="hover:text-primary transition-colors"><Share2 size={20} /></button>
+                        <button onClick={handleMessage} className="hover:text-primary transition-colors"><MessageCircle size={20} /></button>
                       </div>
-                      <p className="mt-6 text-[11px] font-bold text-gray-500 dark:text-zinc-400 flex items-center uppercase tracking-widest">
-                        <ImageIcon size={12} className="mr-2 text-primary" />
-                        {img.label}
-                      </p>
                     </div>
-                  ))}
+                  </header>
+
+                  <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 leading-relaxed mb-16">
+                    <div className="markdown-body">
+                      <Markdown>{selectedPost.content}</Markdown>
+                    </div>
+                  </div>
+
+                  {/* 文章底部自定义图片列表 (二维码等) - 已支持循环渲染 */}
+                  {POST_BOTTOM_IMAGES && POST_BOTTOM_IMAGES.length > 0 && (
+                    <div className="mt-16 pt-12 border-t border-gray-100 dark:border-zinc-800 flex flex-wrap justify-center gap-12">
+                      {POST_BOTTOM_IMAGES.filter(img => img.enabled).map((img, idx) => (
+                        <div key={idx} className="flex flex-col items-center">
+                          <div className="relative group">
+                            <div className="absolute -inset-4 bg-primary/10 rounded-[2rem] blur-2xl group-hover:bg-primary/20 transition-all duration-500" />
+                            <div className="relative p-2 bg-white dark:bg-zinc-800 rounded-2xl shadow-xl border border-gray-100 dark:border-zinc-700">
+                              <img 
+                                src={img.url} 
+                                alt={img.label} 
+                                className="w-32 h-32 md:w-36 md:h-36 object-cover rounded-xl"
+                              />
+                            </div>
+                          </div>
+                          <p className="mt-6 text-[11px] font-bold text-gray-500 dark:text-zinc-400 flex items-center uppercase tracking-widest">
+                            <ImageIcon size={12} className="mr-2 text-primary" />
+                            {img.label}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ) : (
@@ -429,8 +433,9 @@ export default function App() {
                   </motion.div>
                 ) : (
                   <>
-                    <div className="flex flex-col mb-16">
-                      <h1 className="text-6xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tighter">
+                    <div className="flex flex-col mb-16 relative">
+                      <div className="absolute -inset-8 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl rounded-[3rem] -z-10 shadow-sm border border-white/50 dark:border-zinc-800/50"></div>
+                      <h1 className="text-6xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tighter relative z-10">
                         {activeTab === 'home' ? '探索故事' 
                          : activeTab === 'tags' ? (selectedTag ? `# ${selectedTag}` : '浏览标签')
                          : activeTab === 'archive' ? '归档'
@@ -462,7 +467,7 @@ export default function App() {
                     ) : (
                       <>
                         {activeTab === 'archive' ? (
-                          <div className="space-y-12 max-w-3xl mx-auto py-10">
+                          <div className="space-y-12 max-w-3xl mx-auto p-8 md:p-12 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl rounded-[3rem] shadow-sm border border-white/50 dark:border-zinc-800/50">
                             {Object.entries(
                               posts.reduce((acc, post) => {
                                 const d = post.date ? new Date(post.date) : new Date();
