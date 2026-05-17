@@ -36,7 +36,7 @@ export const AUTHOR_TITLE = "一个热爱生活的开发者";
 
 // 6. 头像图片路径
 // 可以使用远程链接，或者将图片放入 public/images/ 后使用 "/images/文件名.jpg"
-export const AUTHOR_AVATAR = "https://w.wallhaven.cc/full/gl/wallhaven-gllejl.png";
+export const AUTHOR_AVATAR = "https://i.urusai.cc/wx3iV.jpg";
 
 
 /**
@@ -70,7 +70,7 @@ export const RECOMMENDED_LINKS = [
 export const ABOUT_PAGE_CONFIG = {
   name: AUTHOR_NAME,
   title: AUTHOR_TITLE,
-  image: "https://w.wallhaven.cc/full/gl/wallhaven-gllejl.png", // 背景大图
+  image: "https://i.urusai.cc/PDOiV.png", // 背景大图
   description: `
 你好！我是${AUTHOR_NAME}。
 

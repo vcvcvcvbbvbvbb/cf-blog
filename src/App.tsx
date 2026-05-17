@@ -386,14 +386,14 @@ export default function App() {
                       <h1 className="text-6xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tighter">
                         {activeTab === 'home' ? '探索故事' 
                          : activeTab === 'tags' ? (selectedTag ? `# ${selectedTag}` : '浏览标签')
-                         : activeTab === 'archives' ? '归档'
+                         : activeTab === 'archive' ? '归档'
                          : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
                       </h1>
                       <p className="text-xl text-gray-500 dark:text-zinc-500 font-medium">
                         {activeTab === 'home' 
                           ? '分享关于设计、技术与创意过程的思考。' 
                           : activeTab === 'tags' ? (selectedTag ? `标签为 "${selectedTag}" 的文章` : '浏览所有话题。')
-                          : activeTab === 'archives' ? '回顾过往的文章动态。'
+                          : activeTab === 'archive' ? '回顾过往的文章动态。'
                           : `正在探索 ${activeTab}。`}
                       </p>
                       {activeTab === 'tags' && selectedTag && (
@@ -414,7 +414,7 @@ export default function App() {
                       </div>
                     ) : (
                       <>
-                        {activeTab === 'archives' ? (
+                        {activeTab === 'archive' ? (
                           <div className="space-y-12 max-w-3xl mx-auto py-10">
                             {Object.entries(
                               posts.reduce((acc, post) => {

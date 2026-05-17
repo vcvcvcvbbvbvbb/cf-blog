@@ -14,6 +14,7 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 *   **🏷️ 多标签**: 每篇文章支持添加多个标签，分类检索更方便。
 *   **🚀 新功能**: 
     *   **返回顶部/底部**: 极速导航，阅读体验更顺滑。
+    *   **时间线归档**: 按年、月自动组织文章，回忆不再凌乱。
     *   **多码支持**: 底部支持展示多个二维码（如微信号+打赏码）。
 
 ---
@@ -57,7 +58,15 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 *   在 Ubuntu 中执行 `sudo apt update && sudo apt install nodejs npm` (推荐使用 Node 20+)。
 *   **PS**: 若 WSL 密码丢失，请询问 [DeepSeek](https://chat.deepseek.com/) 寻找“WSL 重置密码方法”。
 
-**2. 本地调试**
+**2. 极客写作：自动更新日期 (New!)**
+为了省去手动修改文章日期的烦恼，本项目内置了自动日期同步脚本：
+*   **手动运行**: 在根目录执行 `node scripts/update-post-date.js content/posts/你的文章.md`。
+*   **VS Code 自动化 (推荐)**: 
+    *   按下 `Ctrl + Shift + B` (Windows) 或 `Cmd + Shift + B` (Mac)。
+    *   选择 `CyberLog: 更新当前文章日期`。
+    *   脚本会自动检测当前打开的文件，并将其 frontmatter 中的 `date` 字段更新为今天。
+
+**3. 本地调试**
 *   使用 **VSCode** 打开项目。
 *   推荐安装 **Markdown All in One** 或 **Markdown Preview Enhanced** 插件以便实时预览。
 *   在项目根目录运行 `npm install` 安装依赖。
