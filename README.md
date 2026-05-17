@@ -50,7 +50,7 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 *   切换到 **Pages** 选项卡，点击 **Connect to Git**。
 *   选择您的 GitHub 账号，并选中刚才 Fork 的项目，点击 **Begin setup**。
 *   在“Build settings”中配置如下：
-    *   **Framework preset**: 选 `Vite`。
+    *   **Framework preset**: 留空，不填写任何内容。
     *   **Build command**: 输入 `npm run build`。
     *   **Build output directory**: 输入 `dist`。
 *   点击 **Save and Deploy**，等待 1-2 分钟，您的网站就正式上线了！
