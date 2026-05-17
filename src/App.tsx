@@ -24,7 +24,7 @@ export default function App() {
     return false;
   });
   // 默认背景图 (小白不容易找到并修改这里)
-  const DEFAULT_BG = "https://w.wallhaven.cc/full/3k/wallhaven-3k63ey.jpg";
+  const DEFAULT_BG = "https://i.urusai.cc/Pws4B.jpg";
 
   const [bgImage, setBgImage] = useState(() => {
     if (typeof window !== 'undefined') {

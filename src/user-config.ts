@@ -30,7 +30,7 @@ export const AUTHOR_TITLE = "一个热爱生活的开发者";
 
 // 6. 头像图片路径
 // 可以使用远程链接，或者将图片放入 public/images/ 后使用 "/images/文件名.jpg"
-export const AUTHOR_AVATAR = "https://w.wallhaven.cc/full/rq/wallhaven-rqjokj.png";
+export const AUTHOR_AVATAR = "https://i.urusai.cc/pDWOJ.jpg";
 
 
 /**
@@ -66,7 +66,7 @@ export const RECOMMENDED_LINKS = [
 export const ABOUT_PAGE_CONFIG = {
   name: AUTHOR_NAME,
   title: AUTHOR_TITLE,
-  image: "https://w.wallhaven.cc/full/rq/wallhaven-rqjokj.png", // 背景大图
+  image: "https://i.urusai.cc/XuQOH.png", // 背景大图
   description: `
 你好！我是${AUTHOR_NAME}。
 
@@ -87,4 +87,4 @@ export const THEME_COLOR = "#4f46e5"; // 默认 Indigo 600
 
 // 10. 网站背景图片透明度（0.0 到 1.0 之间，数值越小，背景图越清晰）
 // 建议：浅色模式 0.7-0.9，深色模式 0.8-0.95
-export const SITE_BG_OPACITY = 0.65;
+export const SITE_BG_OPACITY = 0.55;
