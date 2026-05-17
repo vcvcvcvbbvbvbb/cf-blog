@@ -4,7 +4,7 @@ date: "2026-05-16"
 draft: "false"
 tags: ["markdown","写作模板"]
 description: "文章内容的简单概括"
-image: "  "
+image: "https://i.urusai.cc/wx3iV.jpg"
 ---
 
 ## 👋 欢迎开始写作！
@@ -23,7 +23,7 @@ image: "  "
 *   **列表**：
     1. 第一项
     2. 第二项
-  ___  
+
 
 ### 注意事项：
 1. 文件顶部的 `---` 之间是对文章的描述，请务必保留。
@@ -36,5 +36,6 @@ image: "  "
 
 
 ## 在文章内插入图片
-`![图片描述](图片地址)`
-   ___
+![图片描述](https://i.urusai.cc/wx3iV.jpg)
+
+

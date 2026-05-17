@@ -370,7 +370,13 @@ export default function App() {
 
                   <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 leading-relaxed mb-16">
                     <div className="markdown-body">
-                      <Markdown>{selectedPost.content}</Markdown>
+                      <Markdown
+                        components={{
+                          img: ({node, ...props}) => <img {...props} referrerPolicy="no-referrer" />
+                        }}
+                      >
+                        {selectedPost.content}
+                      </Markdown>
                     </div>
                   </div>
 

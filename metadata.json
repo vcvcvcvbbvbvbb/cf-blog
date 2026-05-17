@@ -1,5 +1,5 @@
 {
-  "name": "张三的个人博客",
+  "name": "阿蔸的个人博客",
   "description": "一个基于 Vite + React 的极简静态博客。采用预构建机制将 Markdown 转换为静态 JSON，支持 Cloudflare Pages 等静态托管平台，实现无后端、高性能的全球访问。",
   "requestFramePermissions": [],
   "majorCapabilities": [

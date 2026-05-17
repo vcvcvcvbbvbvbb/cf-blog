@@ -21,11 +21,14 @@
 
 ## 二、 技术栈说明
 本项目采用现代前端技术栈构建，确保了极致的响应速度与部署的便利性：
-*   **前端框架**: React 18 + Vite (极致的开发体验与打包速度)
-*   **语言**: TypeScript (提供严格的类型检查，增强项目可维护性)
-*   **样式方案**: Tailwind CSS v4 (原子化 CSS 处理，全站风格高度统一)
-*   **字体方案**: System-UI 系统原生字体栈 (完美解决某些地区加载网络字体导致的白屏和卡顿问题)
-*   **路由代理**: 浏览器原生 History API 解析 (结合 `_redirects` 实现服务端防刷新 404 和简单的文章页直达)
+*   **前端框架**: React 19 + Vite 6
+*   **语言**: TypeScript 
+*   **样式方案**: Tailwind CSS 4
+*   **Markdown 解析**: react-markdown + gray-matter 
+*   **动画支持**: motion
+*   **图标库**: lucide-react
+*   **后端服务**: 基于 Express 的轻量级本地处理逻辑（本地运行时使用）
+*   **数据库/统计 (可选)**: LeanCloud
 *   **构建时预处理**: Node.js 脚本 (在执行 build 前将 Markdown 自动构建为 JSON API)
 
 ---
