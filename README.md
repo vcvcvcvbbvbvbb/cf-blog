@@ -195,5 +195,8 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 9.  **不知道该如何修改侧边栏里的社交和个人图标？**
     *   **已填坑**: 已经在项目根目录的配置中心 `blog.config.ts` 里，针对由于引入 React 组件带来的图标修改门槛过高的问题，专门补充了“一拖到底”的傻瓜式小白操作步骤指引，无需代码经验也能随意换图标。
 
-## 📄 许可证
-本项目基于 MIT 许可证开源。您可以自由复刻、修改并使用。
+## 📄 版权说明 / License
+本项目基于 [MIT License](LICENSE) 开源。
+**Copyright © 2026 cf-blog | Powered by adou**
+
+如果您使用了本模板，欢迎保留页脚的版权归属来源。您可以自由进行定制化和二次创作！

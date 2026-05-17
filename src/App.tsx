@@ -433,15 +433,14 @@ export default function App() {
                   </motion.div>
                 ) : (
                   <>
-                    <div className="flex flex-col mb-16 relative">
-                      <div className="absolute -inset-8 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl rounded-[3rem] -z-10 shadow-sm border border-white/50 dark:border-zinc-800/50"></div>
-                      <h1 className="text-6xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tighter relative z-10">
+                    <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl rounded-3xl p-8 md:p-12 shadow-xl border border-gray-200 dark:border-zinc-800 flex flex-col mb-12">
+                      <h1 className="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">
                         {activeTab === 'home' ? '探索故事' 
                          : activeTab === 'tags' ? (selectedTag ? `# ${selectedTag}` : '浏览标签')
                          : activeTab === 'archive' ? '归档'
                          : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
                       </h1>
-                      <p className="text-xl text-gray-500 dark:text-zinc-500 font-medium">
+                      <p className="text-xl text-gray-600 dark:text-zinc-300 font-medium">
                         {activeTab === 'home' 
                           ? HOME_PAGE_DESCRIPTION 
                           : activeTab === 'tags' ? (selectedTag ? `标签为 "${selectedTag}" 的文章` : '浏览所有话题。')
@@ -567,6 +566,22 @@ export default function App() {
             )}
           </AnimatePresence>
         </main>
+
+        {/* 网站底页版权信息 */}
+        <footer className={cn(
+          "transition-all duration-300 py-8 text-center flex flex-col items-center",
+          isSidebarOpen ? "lg:ml-64" : "ml-0"
+        )}>
+          <div className="bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md rounded-full px-5 py-2 inline-flex flex-col md:flex-row items-center gap-1 md:gap-3 shadow-sm border border-gray-200/50 dark:border-zinc-800/50">
+            <span className="text-xs font-medium text-gray-700 dark:text-zinc-300">
+              Copyright &copy; 2026 cf-blog | Powered by adou
+            </span>
+            <span className="hidden md:inline text-gray-300 dark:text-zinc-700">|</span>
+            <span className="text-[10px] font-medium text-gray-500 dark:text-zinc-400">
+              Open Source under MIT License
+            </span>
+          </div>
+        </footer>
       </div>
 
       {/* 提示通知 UI */}
