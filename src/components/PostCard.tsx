@@ -57,7 +57,10 @@ export const PostCard: React.FC<PostCardProps> = ({ post, onClick }) => {
           <div className="flex items-center text-xs text-gray-400 space-x-4">
             <span className="flex items-center">
               <Calendar size={14} className="mr-1" /> 
-              {format(new Date(post.date), 'yyyy年MM月dd日')}
+              {(() => {
+                const d = post.date ? new Date(post.date) : new Date();
+                return isNaN(d.getTime()) ? '未知日期' : format(d, 'yyyy年MM月dd日');
+              })()}
             </span>
           </div>
           <span className="text-sm font-semibold text-gray-900 dark:text-zinc-100 flex items-center group-hover:translate-x-1 transition-transform">

@@ -24,7 +24,7 @@ function generatePosts() {
       const stats = fs.statSync(fullPath);
 
       // 草稿过滤逻辑：如果设置了 draft: true，则不包含在生成的索引中
-      if (data.draft === true) {
+      if (data.draft === true || data.draft === 'true') {
         return null;
       }
 

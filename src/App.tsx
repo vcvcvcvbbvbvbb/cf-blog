@@ -351,7 +351,12 @@ export default function App() {
                         <div>
                           <p className="text-sm font-bold text-gray-900 dark:text-zinc-100">{AUTHOR_NAME}</p>
                           <div className="flex items-center space-x-3 mt-0.5">
-                            <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">{selectedPost.metadata.date}</p>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">
+                              {(() => {
+                                const d = new Date(selectedPost.metadata.date);
+                                return isNaN(d.getTime()) ? selectedPost.metadata.date : `${d.getFullYear()}年${String(d.getMonth() + 1).padStart(2, '0')}月${String(d.getDate()).padStart(2, '0')}日`;
+                              })()}
+                            </p>
                             {LEANCLOUD_CONFIG.enabled && currentViews > 0 && (
                               <span className="flex items-center text-[10px] text-gray-400 font-medium">
                                 <Eye size={12} className="mr-1" />
@@ -510,7 +515,10 @@ export default function App() {
                                               className="group cursor-pointer flex items-center space-x-4"
                                             >
                                               <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-600 uppercase tracking-tighter tabular-nums">
-                                                {new Date(post.date).getDate().toString().padStart(2, '0')}
+                                                {(() => {
+                                                  const d = new Date(post.date);
+                                                  return isNaN(d.getTime()) ? '--' : d.getDate().toString().padStart(2, '0');
+                                                })()}
                                               </span>
                                               <h4 className="text-lg font-bold text-gray-700 dark:text-zinc-300 group-hover:text-primary transition-colors line-clamp-1">
                                                 {post.title}
