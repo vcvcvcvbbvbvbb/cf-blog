@@ -38,13 +38,28 @@ function generatePosts() {
             : stats.mtime.toISOString(),
           tags: data.tags || [],
           description: data.description || content.substring(0, 150).replace(/[#*`]/g, '') + '...',
-          image: data.image || null
+          image: data.image || null,
+          sticky: typeof data.sticky === 'number' ? data.sticky : (data.sticky ? 1 : null)
         },
         content
       };
     })
     .filter(post => post !== null)
-    .sort((a, b) => new Date(b.metadata.date) - new Date(a.metadata.date));
+    .sort((a, b) => {
+      // Handle sticky sorting first
+      const aSticky = a.metadata.sticky;
+      const bSticky = b.metadata.sticky;
+      
+      if (aSticky !== null && bSticky !== null) {
+        if (aSticky !== bSticky) return aSticky - bSticky;
+        return new Date(b.metadata.date) - new Date(a.metadata.date);
+      }
+      if (aSticky !== null) return -1;
+      if (bSticky !== null) return 1;
+      
+      // If neither is sticky, sort by date
+      return new Date(b.metadata.date) - new Date(a.metadata.date);
+    });
 
   fs.writeFileSync(outputFile, JSON.stringify(allPostsData, null, 2));
   console.log(`成功构建 ${allPostsData.length} 篇文章到 ${outputFile}`);

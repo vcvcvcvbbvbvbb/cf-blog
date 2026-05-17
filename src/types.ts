@@ -11,6 +11,7 @@ export interface PostMetadata {
   image?: string;      // 封面图 URL (可选)
   tags?: string[];     // 标签数组 (可选)
   slug: string;        // 唯一识别路径（通常是文件名）
+  sticky?: number | null; // 置顶权重，数字越小越靠前
 }
 
 /** 文章详情：包含元数据和全文 Markdown 内容 */

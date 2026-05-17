@@ -11,14 +11,20 @@ import { format } from 'date-fns';
 interface PostCardProps {
   post: PostMetadata;             // 文章的基础信息（元数据）
   onClick: (slug: string) => void; // 点击卡片后的跳转回调
+  isSticky?: boolean;              // 是否为置顶文章
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post, onClick }) => {
+export const PostCard: React.FC<PostCardProps> = ({ post, onClick, isSticky = false }) => {
   return (
     <article 
       onClick={() => onClick(post.slug)}
-      className="group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-zinc-800 hover:shadow-2xl transition-all duration-300 cursor-pointer"
+      className={`relative group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border ${isSticky ? 'border-primary/50 shadow-md shadow-primary/10' : 'border-gray-100 dark:border-zinc-800'} hover:shadow-2xl transition-all duration-300 cursor-pointer`}
     >
+      {isSticky && (
+        <div className="absolute top-4 right-4 z-10 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+          置顶
+        </div>
+      )}
       {/* 封面图区域：包含悬停缩放效果 */}
       {post.image && (
         <div className="aspect-video overflow-hidden">
