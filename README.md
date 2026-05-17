@@ -80,7 +80,7 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 *   **手动运行**: 在根目录执行 `node scripts/update-post-date.js content/posts/你的文章.md`。
 *   **VS Code 自动化 (推荐)**: 
     *   按下 `Ctrl + Shift + B` (Windows) 或 `Cmd + Shift + B` (Mac)。
-    *   选择 `CyberLog: 更新当前文章日期`。
+    *   选择 `cf-blog: 更新当前文章日期`。
     *   脚本会自动检测当前打开的文件，并将其 frontmatter 中的 `date` 字段更新为今天。
 
 **3. 本地调试**
