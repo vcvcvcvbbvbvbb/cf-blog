@@ -1,8 +1,14 @@
+/**
+ * Author: adou | alivedou@outlook.com
+ * 本文件由 adou 开发，旨在为小白提供最简单的个人博客配置体验。
+ * 尊重开源劳动成果，引用请保留作者信息。
+ */
+
 import { Home, Archive, Tag, User, MessageCircle, Tv, Share2, HelpCircle } from 'lucide-react';
 
 /**
  * ==========================================
- *           网站基础信息配置
+ *           网站基础信息 (必须修改)
  * ==========================================
  */
 
@@ -18,7 +24,7 @@ export const BLOG_DESCRIPTION = "一个基于 Vite + React 的极简静态博客
 
 /**
  * ==========================================
- *           博主个人信息配置
+ *           个人信息 (必须修改)
  * ==========================================
  */
 
@@ -30,43 +36,41 @@ export const AUTHOR_TITLE = "一个热爱生活的开发者";
 
 // 6. 头像图片路径
 // 可以使用远程链接，或者将图片放入 public/images/ 后使用 "/images/文件名.jpg"
-export const AUTHOR_AVATAR = "https://i.urusai.cc/pDWOJ.jpg";
+export const AUTHOR_AVATAR = "https://w.wallhaven.cc/full/gl/wallhaven-gllejl.png";
 
 
 /**
  * ==========================================
- *           侧边栏菜单与链接
+ *           侧边栏菜单配置
  * ==========================================
  */
 
-// 7. 导航菜单
+// 7. 导航菜单列表
 export const MENU_ITEMS = [
   { id: 'home', label: '首页', icon: Home },
-  { id: 'archives', label: '归档', icon: Archive },
+  { id: 'archive', label: '归档', icon: Archive },
   { id: 'tags', label: '标签', icon: Tag },
   { id: 'about', label: '关于', icon: User },
 ];
 
-// 8. 推荐/社交链接（您可以根据需要添加任意数量的链接）
-//注意：如果您使用了新的 Lucide 图标，记得在文件顶部 import 它
+// 8. 侧边栏底部的社交/推荐链接
 export const RECOMMENDED_LINKS = [
-  { label: '微信', icon: MessageCircle, url: '#' },
-  { label: '哔哩哔哩', icon: Tv, url: 'https://www.bilibili.com' },
-  { label: '微博', icon: Share2, url: 'https://weibo.com' },
-  { label: '知乎', icon: HelpCircle, url: 'https://www.zhihu.com' },
+  { label: 'GitHub', url: 'https://github.com', icon: Share2 },
+  { label: '我的主站', url: 'https://example.com', icon: Tv },
+  { label: '联系我', url: 'mailto:webmaster@example.com', icon: MessageCircle },
 ];
 
 
 /**
  * ==========================================
- *           “关于我”页面详细配置
+ *           关于页面内容
  * ==========================================
  */
 
 export const ABOUT_PAGE_CONFIG = {
   name: AUTHOR_NAME,
   title: AUTHOR_TITLE,
-  image: "https://i.urusai.cc/XuQOH.png", // 背景大图
+  image: "https://w.wallhaven.cc/full/gl/wallhaven-gllejl.png", // 背景大图
   description: `
 你好！我是${AUTHOR_NAME}。
 
@@ -76,15 +80,42 @@ export const ABOUT_PAGE_CONFIG = {
   `.trim()
 };
 
+
 /**
  * ==========================================
- *           网站主题色配置
+ *            外观定制
  * ==========================================
  */
 
-// 9. 主题色（主要用于按钮、链接、高亮背景）
-export const THEME_COLOR = "#4f46e5"; // 默认 Indigo 600
+// 9. 主题色 (Tailwind 颜色名，如 orange, blue, rose, emerald)
+export const THEME_COLOR = "indigo"; 
 
 // 10. 网站背景图片透明度（0.0 到 1.0 之间，数值越小，背景图越清晰）
 // 建议：浅色模式 0.7-0.9，深色模式 0.8-0.95
 export const SITE_BG_OPACITY = 0.55;
+
+
+/**
+ * ==========================================
+ *           文章详情页高级设置
+ * ==========================================
+ */
+
+// 11. 文章底部显示的自定义图片列表 (例如二维码、打赏码)
+// 可以添加多个，会自动并排显示
+export const POST_BOTTOM_IMAGES = [
+  {
+    enabled: true,
+    url: "https://w.wallhaven.cc/full/gl/wallhaven-gllejl.png",
+    label: "关注我的公众号" 
+  },
+];
+
+// 12. 真实阅读量统计 (基于 LeanCloud)
+// 如果不需要统计，请将 enabled 设为 false
+export const LEANCLOUD_CONFIG = {
+  enabled: false, // 初始设为 false，小白配置好后再开启
+  appId: "",      // LeanCloud AppID
+  appKey: "",     // LeanCloud AppKey
+  serverURL: ""   // LeanCloud 服务器地址
+};

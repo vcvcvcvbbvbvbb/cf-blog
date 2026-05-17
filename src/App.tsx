@@ -1,20 +1,29 @@
+/** 
+ * Author: adou | alivedou@outlook.com
+ * 应用主入口文件：负责全局状态管理、页面路由切换、深色模式控制以及数据的获取与展示。
+ */
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { PostCard } from './components/PostCard';
 import { SearchBar } from './components/Search';
 import { PostMetadata, PostDetail } from './types';
 import Markdown from 'react-markdown';
-import { ChevronLeft, Share2, MessageCircle, Sun, Moon, Menu as MenuIcon, X } from 'lucide-react';
+import { ChevronLeft, Share2, MessageCircle, Sun, Moon, Menu as MenuIcon, X, Eye, Image as ImageIcon, ArrowUp, ArrowDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 // @ts-ignore - 预构建脚本生成的文件，可能在首次运行前不存在
 import postsData from './posts-data.json';
-import { ABOUT_PAGE_CONFIG, AUTHOR_NAME, SITE_TITLE, THEME_COLOR, SITE_BG_OPACITY } from './user-config';
+import { ABOUT_PAGE_CONFIG, AUTHOR_NAME, SITE_TITLE, THEME_COLOR, SITE_BG_OPACITY, POST_BOTTOM_IMAGES, LEANCLOUD_CONFIG } from './user-config';
+import { trackPageView } from './lib/leancloud';
 
 export default function App() {
-  const [posts, setPosts] = useState<PostMetadata[]>([]);
-  const [selectedPost, setSelectedPost] = useState<PostDetail | null>(null);
-  const [activeTab, setActiveTab] = useState('home');
+  /** 1. 核心状态维护 */
+  const [posts, setPosts] = useState<PostMetadata[]>([]);            // 整体文章列表
+  const [selectedPost, setSelectedPost] = useState<PostDetail | null>(null); // 当前展示的文章内容
+  const [activeTab, setActiveTab] = useState('home');                // 侧边栏活动项
+  const [currentViews, setCurrentViews] = useState<number>(0);       // 当前文章阅读量
+  
+  // 深色模式初始化：从本地存储获取或匹配系统偏好
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme');
@@ -43,6 +52,10 @@ export default function App() {
     setTimeout(() => setNotification(null), 3000);
   };
 
+  /** 辅助功能：滚动控制 */
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToBottom = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
   const handleShare = () => {
     const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
@@ -56,7 +69,7 @@ export default function App() {
     showNotification("评论功能正在开发中...");
   };
 
-  // 移动端/响应式侧边栏处理：屏幕较小时默认关闭，较大时默认开启
+  // 屏幕尺寸监听：实现移动端侧边栏的自动收纳
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
@@ -96,7 +109,7 @@ export default function App() {
     }
   }, [bgImage]);
 
-  // 获取所有文章列表
+  /** 2. 数据获取逻辑 */
   const fetchPosts = async () => {
     try {
       const resp = await fetch('/api/posts');
@@ -105,27 +118,41 @@ export default function App() {
       setPosts(data);
       setLoading(false);
     } catch (err) {
-      console.log('Using static posts data fallback');
+      // 容错机制：当 API 不可用时，自动读取本地生成的 posts-data.json
+      console.log('正在使用本地预构建数据...');
       setPosts(postsData.map((p: any) => p.metadata) as PostMetadata[]);
       setLoading(false);
     }
   };
 
-  // 处理文章点击事件：获取详情并切换视图
+  /** 3. 文章点击处理：获取全文内容并开启阅读量追踪 */
   const handlePostClick = async (slug: string) => {
     setLoading(true);
+    setCurrentViews(0); // 切换文章时重置阅读量显示
     try {
       const resp = await fetch(`/api/posts/${slug}`);
       if (!resp.ok) throw new Error('API not available');
       const data = await resp.json();
       setSelectedPost(data);
-      window.scrollTo(0, 0); // 滚动到顶部
+      window.scrollTo(0, 0); // 瞬间回顶，优化阅读体验
+      
+      // 触发 LeanCloud 浏览量统计 (仅在 config 中开启后生效)
+      if (LEANCLOUD_CONFIG.enabled) {
+        const views = await trackPageView(slug);
+        setCurrentViews(views);
+      }
     } catch (err) {
-      console.log('Using static post detail fallback');
+      // 容错：如果 API 加载失败，从本地 postsData 缓存中查找内容
       const staticPost = (postsData as unknown as PostDetail[]).find(p => p.slug === slug);
       if (staticPost) {
         setSelectedPost(staticPost);
         window.scrollTo(0, 0);
+        
+        // 静态模式下的阅读量追踪
+        if (LEANCLOUD_CONFIG.enabled) {
+          const views = await trackPageView(slug);
+          setCurrentViews(views);
+        }
       }
     } finally {
       setLoading(false);
@@ -152,16 +179,47 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* 浮动侧边栏开关按钮 */}
+      {/* 侧边栏开关按钮 - 优化：改为固定定位（Fixed），降低常态不透明度 */}
+      {!isSidebarOpen && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="fixed top-6 left-6 z-50 p-2 md:p-3 rounded-xl bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md border border-gray-200/50 dark:border-zinc-800/50 shadow-sm hover:bg-white/80 dark:hover:bg-zinc-900/80 hover:shadow-md transition-all text-gray-400 dark:text-zinc-500 flex items-center group"
+          title="打开菜单"
+        >
+          <MenuIcon size={18} className="group-hover:scale-110 transition-transform" />
+        </button>
+      )}
+
+      {/* 昼夜模式切换按钮 - 固定在右上角，相对于屏幕不动 */}
       <button
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className={cn(
-          "fixed top-6 right-24 lg:left-8 lg:right-auto z-50 p-3 rounded-2xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-gray-200 dark:border-zinc-800 shadow-lg hover:shadow-xl transition-all text-gray-600 dark:text-zinc-400 lg:flex items-center space-x-2",
-          isSidebarOpen ? "lg:opacity-0 pointer-events-none" : "lg:opacity-100"
-        )}
+        onClick={toggleDark}
+        className="fixed top-6 right-6 z-50 p-2 md:p-3 rounded-xl bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md border border-gray-200/50 dark:border-zinc-800/50 shadow-sm hover:bg-white/80 dark:hover:bg-zinc-900/80 hover:shadow-md transition-all text-yellow-500 dark:text-yellow-400 flex items-center group"
+        title={isDark ? "切换到白天模式" : "切换到黑夜模式"}
       >
-        <MenuIcon size={20} />
+        {isDark ? (
+          <Sun size={20} className="group-hover:rotate-45 transition-transform" />
+        ) : (
+          <Moon size={20} className="group-hover:-rotate-12 transition-transform" />
+        )}
       </button>
+
+      {/* 回到顶部/底部 快速导航按钮 */}
+      <div className="fixed bottom-8 right-6 z-50 flex flex-col space-y-3">
+        <button
+          onClick={scrollToTop}
+          className="p-3 rounded-full bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md border border-gray-200 dark:border-zinc-700 shadow-sm text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-white/80 dark:hover:bg-zinc-800/80 transition-all group"
+          title="回到顶部"
+        >
+          <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform" />
+        </button>
+        <button
+          onClick={scrollToBottom}
+          className="p-3 rounded-full bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md border border-gray-200 dark:border-zinc-700 shadow-sm text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-white/80 dark:hover:bg-zinc-800/80 transition-all group"
+          title="前往底部"
+        >
+          <ArrowDown size={18} className="group-hover:translate-y-0.5 transition-transform" />
+        </button>
+      </div>
 
 
       <div 
@@ -184,8 +242,6 @@ export default function App() {
             setSelectedTag(null);
             if (window.innerWidth < 1024) setIsSidebarOpen(false);
           }}
-          isDark={isDark}
-          toggleDark={toggleDark}
           bgImage={bgImage}
           setBgImage={setBgImage}
         />
@@ -246,7 +302,15 @@ export default function App() {
                       </div>
                       <div>
                         <p className="text-sm font-bold text-gray-900 dark:text-zinc-100">{AUTHOR_NAME}</p>
-                        <p className="text-xs text-gray-500">{selectedPost.metadata.date}</p>
+                        <div className="flex items-center space-x-3 mt-0.5">
+                          <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">{selectedPost.metadata.date}</p>
+                          {LEANCLOUD_CONFIG.enabled && currentViews > 0 && (
+                            <span className="flex items-center text-[10px] text-gray-400 font-medium">
+                              <Eye size={12} className="mr-1" />
+                              {currentViews} 次阅读
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-4 text-gray-400">
@@ -256,10 +320,32 @@ export default function App() {
                   </div>
                 </header>
 
-                <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 leading-relaxed mb-16">
                   <div className="markdown-body">
                     <Markdown>{selectedPost.content}</Markdown>
                   </div>
+                </div>
+
+                {/* 文章底部自定义图片列表 (二维码等) - 已支持循环渲染 */}
+                <div className="mt-20 py-12 border-t border-gray-100 dark:border-zinc-900 flex flex-wrap justify-center gap-12">
+                  {POST_BOTTOM_IMAGES.filter(img => img.enabled).map((img, idx) => (
+                    <div key={idx} className="flex flex-col items-center">
+                      <div className="relative group">
+                        <div className="absolute -inset-4 bg-primary/10 rounded-[2rem] blur-2xl group-hover:bg-primary/20 transition-all duration-500" />
+                        <div className="relative p-2 bg-white dark:bg-zinc-800 rounded-2xl shadow-xl border border-gray-100 dark:border-zinc-700">
+                          <img 
+                            src={img.url} 
+                            alt={img.label} 
+                            className="w-32 h-32 md:w-36 md:h-36 object-cover rounded-xl"
+                          />
+                        </div>
+                      </div>
+                      <p className="mt-6 text-[11px] font-bold text-gray-500 dark:text-zinc-400 flex items-center uppercase tracking-widest">
+                        <ImageIcon size={12} className="mr-2 text-primary" />
+                        {img.label}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             ) : (
