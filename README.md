@@ -8,7 +8,8 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 ## 部署后的效果图如下：
 
 ！[项目部署效果图](https://i.urusai.cc/2u1Ar.png)
-
+！[项目部署效果图](public/images/demo1.jpg)
+！[项目部署效果图](public/images/demo2.jpg)
 ---
 
 ## 🛠️ 准备阶段 (部署前必看)
