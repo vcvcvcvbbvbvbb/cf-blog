@@ -4,7 +4,7 @@
  * 尊重开源劳动成果，引用请保留作者信息。
  */
 
-import { Home, Archive, Tag, User, MessageCircle, Tv, Share2, HelpCircle } from 'lucide-react';
+import { Home, Archive, Tag, User, MessageCircle, Tv, Share2,Image, HelpCircle } from 'lucide-react';
 
 /**
  * ==========================================
@@ -62,10 +62,13 @@ export const MENU_ITEMS = [
   { id: 'about', label: '关于', icon: User },
 ];
 
-// 9. 侧边栏底部的社交/推荐链接
+// 9. 侧边栏底部的社交/推荐链接：
+//预置了一个免费图床和一个高清图片壁纸站按钮,由于后者被墙，需要把后者的图片放到前面的图床后，再复制链接给你的博客配图
 export const RECOMMENDED_LINKS = [
   { label: 'GitHub', url: 'https://github.com', icon: Share2 },
   { label: '我的主站', url: 'https://example.com', icon: Tv },
+  { label: '第三方图床', url: 'https://urusai.cc', icon: Image },
+  { label: '壁纸图片网站', url: 'https://wallhaven.cc', icon: Image },
 ];
 
 
@@ -95,7 +98,7 @@ export const ABOUT_PAGE_CONFIG = {
  * ==========================================
  */
 
-// 10. 主题色 (Tailwind 颜色名，如 orange, blue, rose, emerald)
+// 10. 主题色 (Tailwind 颜色名，如 orange, blue, rose, emerald)其他颜色定制请自行用AI或搜索浏览器得到答案
 export const THEME_COLOR = "indigo"; 
 
 // 11. 网站背景图片透明度（0.0 到 1.0 之间，数值越小，背景图越清晰）
@@ -110,7 +113,7 @@ export const SITE_BG_OPACITY = 0.85;
  */
 
 // 12. 文章底部显示的自定义图片列表 (例如二维码、打赏码)
-// 可以添加多个，会自动并排显示
+// 可以添加多个，会自动并排显示，但需要格式保持一致，不然网站会崩。
 export const POST_BOTTOM_IMAGES = [
   {
     enabled: true,
@@ -119,7 +122,7 @@ export const POST_BOTTOM_IMAGES = [
   },
 ];
 
-// 13. 真实阅读量统计 (基于 LeanCloud)
+// 13. 真实阅读量统计 (基于 LeanCloud)，该功能要求能力比较高，小白请勿更改。
 // 如果不需要统计，请将 enabled 设为 false
 export const LEANCLOUD_CONFIG = {
   enabled: false, // 初始设为 false，小白配置好后再开启
