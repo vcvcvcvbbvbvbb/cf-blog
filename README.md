@@ -5,6 +5,8 @@
 Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 项目开源地址：[https://github.com/alivedou/cf-blog](https://github.com/alivedou/cf-blog)
 
+这里是我使用该项目部署的个人博客[阿蔸的空间站]（https://blog.163898.xyz/）
+
 ## 部署后的效果图如下：
 
 ！[项目部署效果图1](https://i.urusai.cc/2u1Ar.png)
