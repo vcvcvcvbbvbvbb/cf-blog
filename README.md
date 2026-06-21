@@ -78,9 +78,18 @@ Author: adou | [alivedou@outlook.com](mailto:alivedou@outlook.com)
 
 **1. 环境配置 (Windows 用户推荐 WSL)**
 *   打开终端执行 `wsl --install` 安装 Ubuntu。
-*   在 Ubuntu 中执行 `sudo apt update && sudo apt install nodejs npm` (推荐使用 Node 20+)。
-*   **PS**: 第一次安装wsl的ubuntu会要求设定密码，但是你输入密码不会有任何反应，可能导致你忘记你设置的密码，
-        若设置的密码忘记导致无法成功设置密码的话，请询问 [DeepSeek](https://chat.deepseek.com/) 或者其他AI， 寻找“WSL 重置密码方法”。
+*   在 Ubuntu 中安装 Node.js（本项目要求 **Node 20+**）：
+    ```bash
+    # 安装 NVM（Node 版本管理器）
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    # 重启终端或执行
+    source ~/.bashrc
+    # 安装并使用 Node 20
+    nvm install 20
+    nvm use 20
+    ```
+    > ⚠️ **不要用 `apt install nodejs`**，Ubuntu 默认源带的版本太老，项目跑不起来。
+*   **PS**: WSL 首次启动会要求设定密码（输入时屏幕不显示是正常的）。如果忘了密码，搜"WSL 重置密码"即可。
 
 **2. 极客写作：自动更新日期 (VS Code 一键同步)**
 为了省去手动修改文章日期的烦恼，本项目内置了自动日期同步脚本：
