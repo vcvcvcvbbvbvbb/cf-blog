@@ -24,10 +24,26 @@
 }
 
 .markdown-body {
-  @apply prose prose-zinc dark:prose-invert max-w-none 
+  @apply prose prose-zinc dark:prose-invert max-w-none
   prose-a:text-[var(--theme-primary)]
-  prose-p:text-gray-700 dark:prose-p:text-zinc-400 
+  prose-p:text-gray-700 dark:prose-p:text-zinc-400
          prose-headings:text-gray-900 dark:prose-headings:text-zinc-100
          prose-strong:text-gray-900 dark:prose-strong:text-zinc-100
          prose-lg leading-relaxed;
+}
+
+.markdown-body table {
+  @apply w-full text-sm text-left my-6 border-collapse;
+}
+.markdown-body thead {
+  @apply border-b-2 border-gray-300 dark:border-zinc-700;
+}
+.markdown-body th {
+  @apply py-3 px-4 font-bold text-gray-900 dark:text-zinc-100 bg-gray-100/50 dark:bg-zinc-800/50;
+}
+.markdown-body td {
+  @apply py-3 px-4 border-b border-gray-200 dark:border-zinc-800 text-gray-700 dark:text-zinc-300;
+}
+.markdown-body tbody tr:hover {
+  @apply bg-gray-50 dark:bg-zinc-800/30 transition-colors;
 }
