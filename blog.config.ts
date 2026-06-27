@@ -53,10 +53,8 @@ export const AUTHOR_AVATAR = "public/images/1.png";
 // 7. 导航菜单列表
 export const MENU_ITEMS = [
   { id: 'home', label: '首页', icon: Home },
-  { id: 'archive', label: '归档', icon: Archive },
   { id: 'categories', label: '分类', icon: Layout },
   { id: 'tags', label: '标签', icon: Tag },
-  { id: 'about', label: '关于', icon: User },
 ];
 
 // 8. 侧边栏底部的社交/推荐链接：
