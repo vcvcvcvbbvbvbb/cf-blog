@@ -35,7 +35,7 @@ export const AUTHOR_CONTACT = "mailto:webmaster@example.com";
 
 // 6. 头像图片路径
 // 可以使用远程链接，或者将图片放入 public/images/ 后使用 "/images/文件名.jpg"
-export const AUTHOR_AVATAR = "public/images/kun.jpg";
+export const AUTHOR_AVATAR = "public/images/1.png";
 
 
 /**
@@ -114,7 +114,7 @@ export const SITE_BG_OPACITY = 0.85;
 export const POST_BOTTOM_IMAGES = [
   {
     enabled: true,
-    url: "public/images/kun.jpg",
+    url: "public/images/1.png",
     label: "关注我的公众号" 
   },
 ];
