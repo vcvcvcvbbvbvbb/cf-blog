@@ -62,9 +62,9 @@ export const MENU_ITEMS = [
 // 8. 侧边栏底部的社交/推荐链接：
 //预置了一个免费图床和一个高清图片壁纸站按钮,由于后者被墙，需要把后者的图片放到前面的图床后，再复制链接给你的博客配图
 export const RECOMMENDED_LINKS = [
-  { label: '聊天室', url: 'https://github.com', icon: Share2 },
-  { label: '音乐', url: 'https://example.com', icon: Tv },
-  { label: '电影院', url: 'https://urusai.cc', icon: Image },
+  { label: '聊天室', url: 'https://1.ymq.cc.cd/', icon: Share2 },
+  { label: '音乐', url: 'https://yy1.ymq.cc.cd/', icon: Tv },
+  { label: '电影院', url: 'https://vedio.ymq.cc.cd/', icon: Image },
   { label: '壁纸图片网站', url: 'https://wallhaven.cc', icon: Image },
 ];
 
